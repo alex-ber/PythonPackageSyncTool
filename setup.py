@@ -29,7 +29,8 @@ setup(
         open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
     ]),
     packages=setuptools.find_packages(exclude=('tests*',)),
-    data_files=[('Lib/site-packages/alexber/reqsync', ['config.yml'])],
+    data_files=[('Lib/site-packages/alexber/reqsync', ['config.yml']),
+                ],
     install_requires=install_requires,
     extras_require=extras,
     test_suite="tests",
