@@ -19,7 +19,7 @@ tests_require = get_content('requirements-tests.txt')
 
 setup(
     name='python-package-sync-tool',
-    version='0.13',
+    version='0.1.1',
     url='https://github.com/alex-ber/PythonPackageSyncTool',
     author='Alexander Berkovich',
     description='Small tool to sync package from different machines',
@@ -66,11 +66,4 @@ setup(
     python_requires='>=3.7.1',
     zip_safe= False,
     include_package_data=True,
-    # #see https://github.com/pytest-dev/pytest/issues/2749#issuecomment-353898780
-    # # the following makes a plugin available to pytest
-    # entry_points = {
-    #     'pytest11': [
-    #         'requests_mock = requests_mock.pytest_plugin',
-    #     ]
-    # },
 )
