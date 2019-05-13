@@ -19,7 +19,7 @@ tests_require = get_content('requirements-tests.txt')
 
 setup(
     name='python-package-sync-tool',
-    version='0.11',
+    version='0.12',
     url='https://github.com/alex-ber/PythonPackageSyncTool',
     author='Alexander Berkovich',
     description='Small tool to sync package from different machines',
@@ -64,6 +64,6 @@ setup(
         'Natural Language :: English',
     ],
     python_requires='>=3.7.1',
-    #zip_safe= False,
+    zip_safe= False,
     include_package_data=True
 )
