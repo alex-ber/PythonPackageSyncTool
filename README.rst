@@ -23,6 +23,9 @@ python setup.py test #run all tests
 
 pytest
 
+wget https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip -O master.zip; unzip master.zip; rm master.zip
+
+
 
 Requirements
 ============
