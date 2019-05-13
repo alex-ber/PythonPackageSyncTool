@@ -1,0 +1,7 @@
+treeroot:
+    source: requirements-src.txt
+    destination: requirements-dest.txt
+    remove:
+        - datashape
+        - menuinst
+    add:

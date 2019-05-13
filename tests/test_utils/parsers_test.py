@@ -1,33 +1,44 @@
 import logging
 import pytest
 
-from alexber.utils.parsers import ConfigParser, ArgumentParser, safe_eval
+from alexber.reqsync.utils.parsers import ConfigParser, ArgumentParser, safe_eval
+from alexber.reqsync import app_conf
 
 logger = logging.getLogger(__name__)
 from pathlib import Path
-from decimal import Decimal
-from datetime import datetime
+import yaml
 
 
-def test_parse_config(request):
+def test_parse_yaml(request):
     logger.info(f'{request._pyfuncitem.name}()')
+    expdd = {'source': 'requirements-src.txt',
+             'destination': 'requirements-dest.txt',
+             'remove': ['datashape', 'menuinst']}
+
+    dir = Path(__file__).parent
+
+    with open(dir / 'config.yml') as f:
+        d = yaml.safe_load(f)
+    dd= d['treeroot']
+    assert expdd == dd
+
+def test_parse_ini(request):
+    logger.info(f'{request._pyfuncitem.name}()')
+    expdd = {'source': 'requirements-src.txt',
+             'destination': 'requirements-dest.txt',
+             'remove':'datashape,menuinst',
+             }
 
     parser = ConfigParser()
     dir = Path(__file__).parent
 
-    parser.read(dir / 'config.ini')
+    full_path = Path(dir / 'config.ini')
 
+    parser.read(full_path)
     dd = parser.as_dict()
-    da = dd['PLAYERA']
-    clsa = da['cls']
-    namea = da['name']
+    dd = dd['treeroot']
 
-    db = dd['PLAYERB']
-    clsb = da['cls']
-    nameb = da['name']
-
-    assert clsa==clsb
-    assert namea == nameb
+    assert expdd == dd
 
 
 @pytest.fixture(params=[
@@ -51,7 +62,7 @@ def test_args_parse(request, mocker, arg_parse_param):
 
     parser = ArgumentParser()
 
-    mock_args = mocker.patch('alexber.utils.parsers.sys.argv', new_callable=list)
+    mock_args = mocker.patch('alexber.reqsync.utils.parsers.sys.argv', new_callable=list)
     mock_args.append(__file__)
     mock_args[1:] = args.split()
 
@@ -70,34 +81,6 @@ def test_args_parse_explicit_args(request, arg_parse_param):
     d = parser.as_dict(args=sys_args)
     assert exp_d==d
 
-
-@pytest.mark.parametrize(
-     'value, exp_value, exp_type',
-
-    [
-        ('John', 'John', str),
-        ('alexber.rpsgame.players.ConstantPlayer', 'alexber.rpsgame.players.ConstantPlayer', str),
-        ('1000', 1000, int),
-        ('0.1', 0.1, float),
-        ('0.0', 0.0, float),
-        ('-0.0', 0.0, float),
-        ('-5', -5, int),
-        ('0.1', None, Decimal),  #Not Supprted
-        ('2019-04-01 16:31:51.513383', None, datetime),  #Not Supprted
-
-    ]
-)
-def test_convert(request, value, exp_value, exp_type):
-    logger.info(f'{request._pyfuncitem.name}()')
-    if exp_value is None:
-        logger.debug(f"Type {exp_type} is not supported.")
-        return
-
-
-    result = safe_eval(value)
-    type_result = type(result)
-    pytest.assume(exp_value == result)
-    pytest.assume(exp_type == type_result)
 
 
 if __name__ == "__main__":
