@@ -11,15 +11,15 @@ def get_content(filename):
 
 install_requires = get_content('requirements.txt')
 tests_require = get_content('requirements-tests.txt')
-extras = {
+#extras = {
 #     'ws': get_content('requirements-ws.txt'),
-     'test': tests_require
-}
+#     'test': tests_require
+#}
 
 
 setup(
     name='python-package-sync-tool',
-    version='0.1',
+    version='0.11',
     url='https://github.com/alex-ber/PythonPackageSyncTool',
     author='Alexander Berkovich',
     description='Small tool to sync package from different machines',
@@ -29,7 +29,7 @@ setup(
     ]),
     packages=setuptools.find_packages(exclude=('tests*',)),
     install_requires=install_requires,
-    extras_require=extras,
+    #extras_require=extras,
     test_suite="tests",
     tests_require=tests_require,
     setup_requires=['pytest-runner'],
@@ -64,6 +64,6 @@ setup(
         'Natural Language :: English',
     ],
     python_requires='>=3.7.1',
-    zip_safe= False,
+    #zip_safe= False,
     include_package_data=True
 )
