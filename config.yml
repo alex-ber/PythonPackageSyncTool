@@ -2,6 +2,17 @@ treeroot:
     source: requirements-src.txt
     destination: requirements-dest.txt
     remove:
-        - datashape
-        - menuinst
+        -- datashape
+        -- menuinst
+        -- mkl-fft
+        -- numpy
+        -- pywin32
+        -- tables
+        -- xlwings
+        -- awscli
+        -- jupyter
+        -- jupyter-client
+        -- jupyter-console
+        -- jupyter-core
     add:
+        -- numpy==1.16.2

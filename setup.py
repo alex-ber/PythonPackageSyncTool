@@ -30,6 +30,7 @@ setup(
     ]),
     packages=setuptools.find_packages(exclude=('tests*',)),
     data_files=[('Lib/site-packages/alexber/reqsync', ['config.yml']),
+                ('lib/python3.7/site-packages/alexber/reqsync', ['requirements-src.txt'])
                 ],
     install_requires=install_requires,
     extras_require=extras,
