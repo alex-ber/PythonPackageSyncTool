@@ -20,7 +20,9 @@ def parse_dict(d):
 
     for key in _WHITELIST_FLAT_PREFIX:
         val = d.get(key, None)
-        if val is not None and ','  in val:
+        if val is None:
+            dd[key] = val
+        elif ','  in val:
             dd[key]= val.split(',')
         else:
             dd[key] = val

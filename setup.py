@@ -23,7 +23,7 @@ try:
     os.symlink(os.path.join('..', '..', 'data'), lnk_data)
     setup(
         name='python-package-sync-tool',
-        version='0.1.2',
+        version='0.1.3',
         url='https://github.com/alex-ber/PythonPackageSyncTool',
         author='Alexander Berkovich',
         description='Small tool to sync package from different machines',
@@ -59,13 +59,12 @@ try:
             'Programming Language :: Python',
             'Programming Language :: Python :: 3 :: Only',
             'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.7.1',
             'Programming Language :: Python :: 3.7.2',
             'Programming Language :: Python :: Implementation :: CPython'
             "Topic :: Utilities",
             'Topic :: Software Development :: Libraries :: Python Modules',
             'Topic :: Desktop Environment',
-            'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
-            'Topic :: Games/Entertainment :: Board Games',
             'Topic :: Education',
             'Operating System :: OS Independent',
             'Operating System :: Microsoft :: Windows',

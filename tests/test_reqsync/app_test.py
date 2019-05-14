@@ -28,8 +28,8 @@ def test_main(request, mocker):
     mocker.patch.object(app, 'run', autospec=True, spec_set=True)
 
     exp_source = '--source=requirements-src.txt'
-    exp_destination = '--destination=requirements-dest.txt'
-    exp_remove = '--remove=datashape,menuinst'
+    exp_destination = '-destination=requirements-dest.txt'
+    exp_remove = '-remove=datashape,menuinst'
 
     argsv = f'{exp_source} ' \
     f'{exp_destination} ' \

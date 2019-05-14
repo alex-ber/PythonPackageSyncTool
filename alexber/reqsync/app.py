@@ -87,8 +87,8 @@ def run(**kwargs):
     if dest_f is None:
         raise ValueError(f'{conf.DEST_KEY} key should be defined')
 
-    add_pck = kwargs.pop(conf.ADD_KEY, None)
-    add_pck = None if add_pck is None else deque(sorted(add_pck))   #Limitation: in-memory sorted
+    add_pckgs = kwargs.pop(conf.ADD_KEY, None)
+    add_pckgs = None if add_pckgs is None else deque(sorted(add_pckgs))   #Limitation: in-memory sorted
 
     rm_pckgs = kwargs.pop(conf.RM_KEY, None)
     rm_pckgs = None if rm_pckgs is None else deque(sorted(rm_pckgs))  # Limitation: in-memory sorted
