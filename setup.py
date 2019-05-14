@@ -17,57 +17,70 @@ extras = {
     'tests': tests_require
 }
 
+lnk_data = os.path.join('alexber', 'reqsync', 'data')
 
-setup(
-    name='python-package-sync-tool',
-    version='0.1.1',
-    url='https://github.com/alex-ber/PythonPackageSyncTool',
-    author='Alexander Berkovich',
-    description='Small tool to sync package from different machines',
-    long_description="\n\n".join([
-        open(os.path.join(base_dir, "README.rst"), "r").read(),
-        open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
-    ]),
-    packages=setuptools.find_packages(exclude=('tests*',)),
-    data_files=[('Lib/site-packages/alexber/reqsync', ['config.yml']),
-                ('lib/python3.7/site-packages/alexber/reqsync', ['requirements-src.txt'])
-                ],
-    install_requires=install_requires,
-    extras_require=extras,
-    test_suite="tests",
-    tests_require=tests_require,
-    setup_requires=['pytest-runner'],
-    namespace_packages=('alexber',),
-    license='Apache 2.0',
-    keywords='tools tool sync package pip',
-    classifiers=[
-        # See: https://pypi.python.org/pypi?:action=list_classifiers
-        'Development Status :: 3 - Alpha',
-        'Environment :: Console',
-        'Intended Audience :: Developers',
-        'Intended Audience :: Education',
-        'License :: OSI Approved :: BSD License',
+try:
+    os.symlink(os.path.join('..', '..', 'data'), lnk_data)
+    setup(
+        name='python-package-sync-tool',
+        version='0.1.2',
+        url='https://github.com/alex-ber/PythonPackageSyncTool',
+        author='Alexander Berkovich',
+        description='Small tool to sync package from different machines',
+        long_description="\n\n".join([
+            open(os.path.join(base_dir, "README.rst"), "r").read(),
+            open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
+        ]),
+        packages=setuptools.find_packages(exclude=('tests*',)),
+        #see https://stackoverflow.com/a/26533921
+        # data_files=[('Lib/site-packages/alexber/reqsync', ['data/config.yml', 'data/requirements-src.txt',
+        #                                                    'data/driver.py']),
+        #             #('lib/python3.7/site-packages/alexber/reqsync', ['requirements-src.txt'])
+        #             ],
+        package_data={'alexber.reqsync': ['data/*']},
+        install_requires=install_requires,
+        extras_require=extras,
+        test_suite="tests",
+        tests_require=tests_require,
+        setup_requires=['pytest-runner'],
+        namespace_packages=('alexber',),
+        license='Apache 2.0',
+        keywords='tools tool sync package pip',
+        classifiers=[
+            # See: https://pypi.python.org/pypi?:action=list_classifiers
+            'Development Status :: 3 - Alpha',
+            'Environment :: Console',
+            'Intended Audience :: Developers',
+            'Intended Audience :: Education',
+            'License :: OSI Approved :: BSD License',
 
-        # List of python versions and their support status:
-        # https://en.wikipedia.org/wiki/CPython#Version_history
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.7.2',
-        'Programming Language :: Python :: Implementation :: CPython'
-        "Topic :: Utilities",
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Desktop Environment',
-        'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
-        'Topic :: Games/Entertainment :: Board Games',
-        'Topic :: Education',
-        'Operating System :: OS Independent',
-        'Operating System :: Microsoft :: Windows',
-        'Operating System :: POSIX',
-        'Operating System :: Unix',
-        'Natural Language :: English',
-    ],
-    python_requires='>=3.7.1',
-    zip_safe= False,
-    #include_package_data=True,
-)
+            # List of python versions and their support status:
+            # https://en.wikipedia.org/wiki/CPython#Version_history
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 3 :: Only',
+            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.7.2',
+            'Programming Language :: Python :: Implementation :: CPython'
+            "Topic :: Utilities",
+            'Topic :: Software Development :: Libraries :: Python Modules',
+            'Topic :: Desktop Environment',
+            'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
+            'Topic :: Games/Entertainment :: Board Games',
+            'Topic :: Education',
+            'Operating System :: OS Independent',
+            'Operating System :: Microsoft :: Windows',
+            'Operating System :: POSIX',
+            'Operating System :: Unix',
+            'Natural Language :: English',
+        ],
+        python_requires='>=3.7.1',
+        zip_safe=False,
+        include_package_data=True,
+    )
+
+finally:
+    os.unlink(lnk_data)
+    pass
+
+
+
