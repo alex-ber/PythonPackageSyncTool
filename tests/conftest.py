@@ -3,7 +3,8 @@ import pytest
 #one-time setup
 import os
 cwd = os.getcwd()
-os.chdir(os.path.join(cwd, 'data'))
+if cwd.endswith('PythonPackageSyncTool'):
+    os.chdir(os.path.join(cwd, 'data'))
 
 
 iswebfound = False
