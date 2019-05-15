@@ -24,39 +24,87 @@ def _getSourceGen(filename):
 
 
 def _process_line(prev_line, cur_line, **kwargs):
-    if (prev_line is not None) and (prev_line == cur_line):
+    cur_pck, _ = ('', None) if cur_line is None else cur_line.split('==')
+    prev_pck, _ = ('', None) if prev_line is None else prev_line.split('==')
+
+    #lowercase them
+    low_prev_line = None if prev_line is None else prev_line.casefold()
+    low_cur_line = None if cur_line is None else cur_line.casefold()
+
+    if (low_prev_line is not None) and (low_prev_line == low_cur_line):
         return None #duplicate line, ignore
 
-    if (prev_line is not None) and (prev_line > cur_line):
+    tmp_len = len(low_cur_line)
+    if low_cur_line is None or tmp_len==0:
+        return None #empty line, skip
+
+    low_prev_pck = prev_pck.casefold()
+    low_cur_pck = cur_pck.casefold()
+
+    if (low_prev_line is not None) and (low_prev_pck > low_cur_pck):
         raise ValueError("Source file expected to be sorted. Use sort utilities, for example.")
+
+
+    len_low_prev_pck = len(low_prev_pck)
+    if (len_low_prev_pck > 0) and (low_prev_pck == low_cur_pck):
+        raise ValueError(f"Packages in the source file should be unique, but duplicate package {cur_pck} is found.")
+
 
     add_pckgs = kwargs.get(conf.ADD_KEY, None)
     rm_pckgs = kwargs.get(conf.RM_KEY, None)
-    cur_pck, _ = cur_line.split('==')
-    prev_pck, _ = '' if prev_line is None else prev_line.split('==')
-
+    len_rm_pckgs = 0 if rm_pckgs is None else len(rm_pckgs)
     ret = []
+    should_ret_line = True
+    is_first_iter = True
 
     #remove packages first
-    while rm_pckgs:
+    while len_rm_pckgs>0:
         rm_pck = rm_pckgs[0]
-        if cur_pck < rm_pck:
-            ret.append(cur_line)
-            #we shoudn't remove rm_pck
+        low_rm_pck = rm_pck.casefold()
+        if low_cur_pck < low_rm_pck:
+            if is_first_iter:
+                should_ret_line = True
+            # we shoudn't remove rm_pck
             break
-        if cur_pck == rm_pck:
+        elif low_cur_pck == low_rm_pck:
             rm_pckgs.popleft()
+            if is_first_iter:
+                should_ret_line = False
+            break
         else:
-            ret.append(cur_line)
+            if is_first_iter:
+                should_ret_line = True
+            # we shoudn't remove rm_pck
             rm_pckgs.popleft()
+            is_first_iter = False
+            len_rm_pckgs = 0 if rm_pckgs is None else len(rm_pckgs)
+
+    if should_ret_line:
+        ret.append(cur_line)
+
 
     # add packages
-    while add_pckgs:
+    len_add_pckgs = 0 if add_pckgs is None else len(add_pckgs)
+
+    while len_add_pckgs > 0:
         add_line = add_pckgs[0]
         add_pck, _ = add_line.split('==')
-        if prev_pck<add_pck<cur_pck:
+
+        low_add_pck = add_pck.casefold()
+        if low_prev_pck < low_add_pck <= low_cur_pck:
             ret.append(add_line)
             add_pckgs.popleft()
+            len_add_pckgs = 0 if add_pckgs is None else len(add_pckgs)
+        else:
+            break
+
+
+    # while add_pckgs:
+    #     add_line = add_pckgs[0]
+    #     add_pck, _ = add_line.split('==')
+    #     if prev_pck<add_pck<cur_pck:
+    #         ret.append(add_line)
+    #         add_pckgs.popleft()
 
 
     return ret
@@ -88,10 +136,12 @@ def run(**kwargs):
         raise ValueError(f'{conf.DEST_KEY} key should be defined')
 
     add_pckgs = kwargs.pop(conf.ADD_KEY, None)
-    add_pckgs = None if add_pckgs is None else deque(sorted(add_pckgs))   #Limitation: in-memory sorted
+    # Limitation: in-memory sorted
+    add_pckgs = None if add_pckgs is None else deque(sorted(add_pckgs, key=lambda s: s.casefold()))
 
     rm_pckgs = kwargs.pop(conf.RM_KEY, None)
-    rm_pckgs = None if rm_pckgs is None else deque(sorted(rm_pckgs))  # Limitation: in-memory sorted
+    # Limitation: in-memory sorted
+    rm_pckgs = None if rm_pckgs is None else deque(sorted(rm_pckgs, key=lambda s: s.casefold()))
 
     kwargs[conf.ADD_KEY] = add_pckgs
     kwargs[conf.RM_KEY] = rm_pckgs
@@ -114,10 +164,12 @@ def run(**kwargs):
 
             length = len(lines_buffer)
             if length ==  buffersize:
-                f.writelines(lines_buffer)
+                # writelines ridiculously does not add newlines to the end of each line.
+                f.writelines(map(lambda s: s + '\n', lines_buffer))
                 lines_buffer.clear()
             prev_line = cur_line
-        f.writelines(lines_buffer)
+        # writelines ridiculously does not add newlines to the end of each line.
+        f.writelines(map(lambda s: s + '\n', lines_buffer))
         lines_buffer.clear()
 
 

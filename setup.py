@@ -38,6 +38,7 @@ try:
         #             #('lib/python3.7/site-packages/alexber/reqsync', ['requirements-src.txt'])
         #             ],
         package_data={'alexber.reqsync': ['data/*']},
+        include_package_data=True,
         install_requires=install_requires,
         extras_require=extras,
         test_suite="tests",
@@ -74,7 +75,7 @@ try:
         ],
         python_requires='>=3.7.1',
         zip_safe=False,
-        include_package_data=True,
+
     )
 
 finally:

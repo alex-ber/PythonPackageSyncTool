@@ -12,6 +12,7 @@ treeroot:
     - mkl-fft
     - numpy
     - pywin32
+    - pywinpty
     - tables
     - xlwings
   add:
