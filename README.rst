@@ -17,11 +17,37 @@ pip3 install https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zi
 
 
 
-===
+====
 
 python3 -m pip install https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip
 
 cd /opt/anaconda3/lib/python3.7/site-packages/alexber/reqsync/data/
+
+Note: This is Path where you're actually install my utility, it can be different in your machine.
+
+If you use venv it will look something like:
+
+cd /opt/MyProject/venv/Lib/site-packages/alexber/reqsync
+
+====
+
+Alternatively you can create these file for yourself, named driver.py:
+
+```python
+#!/usr/bin/python3
+
+import alexber.reqsync.app as app
+
+if __name__ == "__main__":
+    app.main()
+```
+
+And create requirements-src.txt in the pip freeze format and put it near your script.
+
+====
+
+After you'll go to the directory with driver script (whether provided or that you've just written). Type
+
 
 chmod 755 driver.py
 
