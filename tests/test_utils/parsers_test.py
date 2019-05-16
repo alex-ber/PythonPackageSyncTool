@@ -92,8 +92,11 @@ def test_args_parse_explicit_args(request, arg_parse_param):
      ("True", True),
      ("False", False),
 
-     ("True", True),
-     ("False", False),
+     ("TRUE", True),
+     ("FALSE", False),
+
+     ("tRuE", True),
+     ("fALsE", False),
 
      ("true", True),
      ("false", False),
@@ -101,8 +104,6 @@ def test_args_parse_explicit_args(request, arg_parse_param):
      (1, True),
      (0, False),
 
-     ("TRUE", True),
-     ("FALSE", False),
      ]
 )
 def test_parse_boolean(request, value, exp_result):
