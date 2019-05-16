@@ -3,11 +3,10 @@ PythonPackageSyncTool
 
 PythonPackageSyncTool is a Python utility to "fix" requirements.txt.
 
-TODO
+It is used to make manipulation on requirements.txt that is produces by 'pip freeze'
 
 Getting Help
 ============
-TODO
 
 QuickStart
 ==========
@@ -42,8 +41,16 @@ Alternatively you can create these file for yourself, named driver.py:
        app.main()
 
 
+Than create file config.yml near your script (see data/config.yml) or provide all parameter using command line
+argruments. Use ':' in places where you should naturally write '==' (see explanation below).
 
-And create requirements-src.txt in the pip freeze format and put it near your script.
+Parammeters 'source' and 'destination' are required.
+
+'mutual_exclusion' has default value True.
+
+
+
+And create requirements-src.txt and put it near your script.
 
 ====
 
@@ -60,6 +67,12 @@ Note:
 
 Semicolomn and not equal sign is used here due to Python limitaion of usage of equal sign in the value in the command line.
 
+You can specified multiple packages using comma delimiter.
+
+You can specifiy path to your config file using `--config_file`.
+
+It can be relative to the folder whether you put driver.py script or absolute.
+
 ====
 
 ./driver.py --add:some_new_package:
@@ -72,11 +85,8 @@ This will run quick check whether package is not in remove list.
 
 
 
-
-
-
-
-====
+Installing from source
+=======================
 
 python3 -m pip install . # only installs "required"
 
@@ -100,4 +110,4 @@ PythonPackageSyncTool requires the following modules.
 
 * Python 3.7+
 
-s
+* PyYAML==5.1
