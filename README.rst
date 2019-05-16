@@ -44,18 +44,17 @@ Alternatively you can create these file for yourself, named driver.py:
 Than create file config.yml near your script (see data/config.yml) or provide all parameter using command line
 argruments. Use ':' in places where you should naturally write '==' (see explanation below).
 
-Parammeters 'source' and 'destination' are required.
+Parammeters 'source' and 'destination' are required. You should also provide (requirements) file for 'source'.
 
 'mutual_exclusion' has default value True.
 
 
 
-And create requirements-src.txt and put it near your script.
-
 ====
 
 After you'll go to the directory with driver script (whether provided or that you've just written). Type
 
+Note: I'm assuming hear that you have config.yml as in data/config.yml.
 
 chmod 755 driver.py
 
