@@ -34,12 +34,13 @@ cd /opt/MyProject/venv/Lib/site-packages/alexber/reqsync
 Alternatively you can create these file for yourself, named driver.py:
 
 ```python
-#!/usr/bin/python3
+   #!/usr/bin/python3
 
-import alexber.reqsync.app as app
+   import alexber.reqsync.app as app
 
-if __name__ == "__main__":
-    app.main()
+   if __name__ == "__main__":
+       app.main()
+
 ```
 
 And create requirements-src.txt in the pip freeze format and put it near your script.
