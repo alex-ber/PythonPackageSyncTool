@@ -123,13 +123,19 @@ def test_parse_boolean(request, value, exp_result):
 
      ("1"),
      ("0"),
-     ]
+
+     (3.5),
+     ([]),
+    ]
 )
+
+
 def test_parse_boolean_invalid(request, value):
     logger.info(f'{request._pyfuncitem.name}()')
 
     with pytest.raises(ValueError, match='nknown'):
         parse_boolean(value)
+
 
 
 if __name__ == "__main__":
