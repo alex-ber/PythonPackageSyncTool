@@ -23,7 +23,7 @@ try:
     os.symlink(os.path.join('..', '..', 'data'), lnk_data)
     setup(
         name='python-package-sync-tool',
-        version='0.1.3',
+        version='0.1.4',
         url='https://github.com/alex-ber/PythonPackageSyncTool',
         author='Alexander Berkovich',
         description='Small tool to sync package from different machines',

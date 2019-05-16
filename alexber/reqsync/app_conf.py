@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from alexber.reqsync.utils.parsers import ConfigParser, ArgumentParser
+from alexber.reqsync.utils.parsers import ArgumentParser, parse_boolean
 from pathlib import Path
 from collections import OrderedDict
 import yaml
@@ -11,8 +11,10 @@ SOURCE_KEY = 'source'
 DEST_KEY  = 'destination'
 RM_KEY = 'remove'
 ADD_KEY = 'add'
+MUTUAL_EXCLUSION_KEY= 'mutual_exclusion'
 
-_WHITELIST_FLAT_PREFIX = {SOURCE_KEY, DEST_KEY, RM_KEY, ADD_KEY}
+BOOLEAN_KEY = {MUTUAL_EXCLUSION_KEY}
+_WHITELIST_FLAT_PREFIX = {SOURCE_KEY, DEST_KEY, RM_KEY, ADD_KEY, MUTUAL_EXCLUSION_KEY}
 
 
 def parse_dict(d):
@@ -22,11 +24,14 @@ def parse_dict(d):
         val = d.get(key, None)
         if val is None:
             dd[key] = val
+        elif key in BOOLEAN_KEY:
+            dd[key] = parse_boolean(val)
         elif ','  in val:
             dd[key]= val.split(',')
         else:
             dd[key] = val
     return dd
+
 
 
 def parse_sys_args(argumentParser=None, args=None):
@@ -45,6 +50,7 @@ def parse_sys_args(argumentParser=None, args=None):
     params, unknown_arg = argumentParser.parse_known_args(args=args)
 
     dd = argumentParser.as_dict(args=unknown_arg)
+    dd = {k: v.replace(":", "==") for k, v in dd.items() if v is not None}  # equal sing repalce work-arround
     dd = parse_dict(dd)
     return params, dd
 

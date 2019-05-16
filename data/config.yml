@@ -1,9 +1,13 @@
 treeroot:
   source: requirements-src.txt
   destination: requirements-dest.txt
+  mutual_exclusion: True
   remove:
     - awscli
     - datashape
+    - entrypoints
+    - google-colab
+    - ipython
     - jupyter
     - jupyter-client
     - jupyter-console
@@ -11,9 +15,14 @@ treeroot:
     - menuinst
     - mkl-fft
     - numpy
+    - pyyaml
     - pywin32
     - pywinpty
+    - Twisted
+    - sasl
+    - scipy
     - tables
+    - tornado
     - xlwings
   add:
-    - numpy==1.16.2
+    #- numpy==1.16.2

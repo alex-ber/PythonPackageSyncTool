@@ -53,7 +53,7 @@ def _process_line(prev_line, cur_line, **kwargs):
     add_pckgs = kwargs.get(conf.ADD_KEY, None)
     rm_pckgs = kwargs.get(conf.RM_KEY, None)
     len_rm_pckgs = 0 if rm_pckgs is None else len(rm_pckgs)
-    ret = []
+    ret = deque([])
     should_ret_line = True
     is_first_iter = True
 
@@ -109,6 +109,41 @@ def _process_line(prev_line, cur_line, **kwargs):
 
     return ret
 
+def _extact_add_pck(element):
+    element_len = 0 if element is None else len(element)
+    if element_len==0:
+        return element
+    pck, _ = '' if element is None else element.split('==')
+    return pck
+
+def _validate_mutual_exclusion(add_pckgs, rm_pckgs):
+    len_l_add = 0 if add_pckgs is None else len(add_pckgs)
+    len_l_remove = 0 if rm_pckgs is None else len(rm_pckgs)
+
+    if len_l_add==0 or len_l_remove==0:
+        return
+
+    s_add = {_extact_add_pck(element) for element in add_pckgs}
+    for pck in rm_pckgs:
+        if pck.casefold() in s_add:
+            raise ValueError(f"Mutual_Exclusion enabled, but {pck} was found in both lists")
+
+def _is_iterable(item):
+    try:
+        iter(item)
+        return True
+    except TypeError:
+        return False
+
+
+def _create_deque(pckgs):
+    if pckgs is None:
+        return None
+    if isinstance(pckgs, str) or not _is_iterable(pckgs):   #we have 1 value
+        ret_pckgs = deque([pckgs])
+    else:
+        ret_pckgs = None if pckgs is None else deque(sorted(pckgs, key=lambda s: s.casefold()))
+    return ret_pckgs
 
 def run(**kwargs):
     """
@@ -137,15 +172,18 @@ def run(**kwargs):
 
     add_pckgs = kwargs.pop(conf.ADD_KEY, None)
     # Limitation: in-memory sorted
-    add_pckgs = None if add_pckgs is None else deque(sorted(add_pckgs, key=lambda s: s.casefold()))
+    add_pckgs = _create_deque(add_pckgs)
 
     rm_pckgs = kwargs.pop(conf.RM_KEY, None)
     # Limitation: in-memory sorted
-    rm_pckgs = None if rm_pckgs is None else deque(sorted(rm_pckgs, key=lambda s: s.casefold()))
+    rm_pckgs = _create_deque(rm_pckgs)
 
     kwargs[conf.ADD_KEY] = add_pckgs
     kwargs[conf.RM_KEY] = rm_pckgs
 
+    is_mutual_exclusion = kwargs.pop(conf.MUTUAL_EXCLUSION_KEY, True)
+    if is_mutual_exclusion:
+        _validate_mutual_exclusion(add_pckgs, rm_pckgs)
 
     full_src_path = Path(src_f).resolve()  # relative to cwd
     full_dest_path = Path(dest_f).resolve()  # relative to cwd
