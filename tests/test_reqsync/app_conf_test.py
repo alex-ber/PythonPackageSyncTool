@@ -23,7 +23,8 @@ class TestFreeStyle(object):
         expdd = {'source': 'requirements-src.txt',
                  'destination': 'requirements-dest.txt',
                  'remove': ['datashape', 'menuinst'],
-                 'add':None}
+                 'add':None,
+                 'mutual_exclusion': None}
 
         dir = Path(__file__).parent
 
@@ -43,7 +44,8 @@ class TestFreeStyle(object):
         expdd = {'source': 'requirements-src.txt',
                  'destination': 'requirements-dest.txt',
                  'remove': ['datashape', 'menuinst'],
-                 'add': None}
+                 'add': None,
+                 'mutual_exclusion': None}
 
         dd = app_conf.parse_dict(d)
         assert expdd == dd
@@ -53,7 +55,8 @@ class TestFreeStyle(object):
         expdd = {'source': 'requirements-src.txt',
                  'destination': 'requirements-dest.txt',
                  'remove': ['datashape', 'menuinst'],
-                 'add': None}
+                 'add': None,
+                 'mutual_exclusion': None}
 
 
         argsv = '--source=requirements-src.txt ' \
@@ -71,7 +74,8 @@ class TestFreeStyle(object):
         expdd = {'source': 'requirements-src.txt',
                  'destination': 'requirements-dest.txt',
                  'remove': ['datashape', 'menuinst'],
-                 'add':None}
+                 'add':None,
+                 'mutual_exclusion': None}
 
         parser = ConfigParser()
         dir = Path(__file__).parent
@@ -92,7 +96,8 @@ class TestFreeStyle(object):
         expdd = {'source': 'requirements-src.txt',
                  'destination': 'requirements-newdest.txt',
                  'remove': ['datashape', 'menuinst'],
-                 'add': None}
+                 'add': None,
+                 'mutual_exclusion': None}
 
         dir = Path(__file__).parent
 
