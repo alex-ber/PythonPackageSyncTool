@@ -58,7 +58,7 @@ Note: I'm assuming hear that you have config.yml as in data/config.yml.
 
 chmod 755 driver.py
 
-./driver.py --add:some_new_package:1.0.0
+./driver.py --add=some_new_package:1.0.0
 
 This will add some_new_package with version 1.0.0 to the requirements-dest.txt
 
@@ -74,7 +74,7 @@ It can be relative to the folder whether you put driver.py script or absolute.
 
 ====
 
-./driver.py --add:some_new_package:
+./driver.py --add=some_new_package:
 
 Note:
 

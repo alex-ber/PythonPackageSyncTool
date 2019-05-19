@@ -34,7 +34,7 @@ def parse_dict(d):
 
 def _ensure_list(v):
     if "," not in v:
-        v += ","
+        v += ","    #this will ensure that we will create list and not single value
         return v
     return v
 

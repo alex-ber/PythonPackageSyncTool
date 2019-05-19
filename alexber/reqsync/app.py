@@ -80,8 +80,6 @@ def _process_line(prev_line, cur_line, **kwargs):
             len_rm_pckgs = 0 if rm_pckgs is None else len(rm_pckgs)
         is_first_iter = False
 
-    # if should_ret_line:
-    #     ret.append(cur_line)
 
 
     # add packages
@@ -120,25 +118,14 @@ def _validate_mutual_exclusion(add_pckgs, rm_pckgs):
         if pck.casefold() in s_add:
             raise ValueError(f"Mutual_Exclusion enabled, but {pck} was found in both lists")
 
-# def _is_iterable(item):
-#     try:
-#         iter(item)
-#         return True
-#     except TypeError:
-#         return False
 
 
 def _create_deque(pckgs):
-    # if pckgs is None:
-    #     return None
-    # if isinstance(pckgs, str) or not _is_iterable(pckgs):   #we have 1 value
-    #     ret_pckgs = deque([pckgs])
-    # else:
-    #     ret_pckgs = None if pckgs is None else deque(sorted(pckgs, key=lambda s: s.casefold()))
-    # return ret_pckgs
+    if pckgs is None:
+        return None
+    pckgs = [pck for pck in pckgs if pck is not None and pck]       #filter out None and ''
     ret_pckgs = None if pckgs is None else deque(sorted(pckgs, key=lambda s: s.casefold()))
-    # if ret_pckgs is not None and len(ret_pckgs[0])==0:  #remove empty str
-    #     ret_pckgs.popleft()
+
     return ret_pckgs
 
 def run(**kwargs):
