@@ -103,7 +103,10 @@ def _extact_add_pck(element):
     element_len = 0 if element is None else len(element)
     if element_len==0:
         return element
-    pck, _ = '' if element is None else element.split('==')
+    if element is None or '==' not in element:
+        pck = ''
+    else:
+        pck, _ = element.split('==')
     return pck
 
 def _validate_mutual_exclusion(add_pckgs, rm_pckgs):
