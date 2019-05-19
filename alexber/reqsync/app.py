@@ -63,24 +63,25 @@ def _process_line(prev_line, cur_line, **kwargs):
         low_rm_pck = rm_pck.casefold()
         if low_cur_pck < low_rm_pck:
             if is_first_iter:
-                should_ret_line = True
+                # should_ret_line = True
+                ret.append(cur_line)
             # we shoudn't remove rm_pck
             break
         elif low_cur_pck == low_rm_pck:
             rm_pckgs.popleft()
-            if is_first_iter:
-                should_ret_line = False
+            #if is_first_iter:
+            #    should_ret_line = False
             break
         else:
             if is_first_iter:
-                should_ret_line = True
+                ret.append(cur_line)
             # we shoudn't remove rm_pck
             rm_pckgs.popleft()
-            is_first_iter = False
             len_rm_pckgs = 0 if rm_pckgs is None else len(rm_pckgs)
+        is_first_iter = False
 
-    if should_ret_line:
-        ret.append(cur_line)
+    # if should_ret_line:
+    #     ret.append(cur_line)
 
 
     # add packages
@@ -97,15 +98,6 @@ def _process_line(prev_line, cur_line, **kwargs):
             len_add_pckgs = 0 if add_pckgs is None else len(add_pckgs)
         else:
             break
-
-
-    # while add_pckgs:
-    #     add_line = add_pckgs[0]
-    #     add_pck, _ = add_line.split('==')
-    #     if prev_pck<add_pck<cur_pck:
-    #         ret.append(add_line)
-    #         add_pckgs.popleft()
-
 
     return ret
 

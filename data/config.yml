@@ -25,4 +25,12 @@ treeroot:
     - tornado
     - xlwings
   add:
-    #- numpy==1.16.2
+#    - entrypoints==0.2.3
+#    - numpy==1.16.2
+#    - PyYAML==5.1
+#    - sasl==0.2.1
+#    - scipy==1.2.1
+#    - tables==3.4.4
+#    - tornado==5.1.1
+#    - Twisted==19.2.0
+
