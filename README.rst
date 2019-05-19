@@ -74,11 +74,7 @@ It can be relative to the folder whether you put driver.py script or absolute.
 
 ====
 
-./driver.py --add=some_new_package:
-
-Note:
-
-Semicolomn add the end.
+./driver.py --add=some_new_package
 
 This will run quick check whether package is not in remove list.
 

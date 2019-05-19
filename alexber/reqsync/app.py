@@ -23,6 +23,8 @@ def _getSourceGen(filename):
                     yield pck
 
 
+
+
 def _process_line(prev_line, cur_line, **kwargs):
     cur_pck, _ = ('', None) if cur_line is None else cur_line.split('==')
     prev_pck, _ = ('', None) if prev_line is None else prev_line.split('==')
@@ -87,7 +89,7 @@ def _process_line(prev_line, cur_line, **kwargs):
 
     while len_add_pckgs > 0:
         add_line = add_pckgs[0]
-        add_pck, _ = add_line.split('==')
+        add_pck = _extact_add_pck(add_line)
 
         low_add_pck = add_pck.casefold()
         if low_prev_pck < low_add_pck <= low_cur_pck:
@@ -102,12 +104,13 @@ def _process_line(prev_line, cur_line, **kwargs):
 def _extact_add_pck(element):
     element_len = 0 if element is None else len(element)
     if element_len==0:
-        return element
-    if element is None or '==' not in element:
-        pck = ''
+        return ''
+    elif '==' not in element:
+        pck = element
     else:
         pck, _ = element.split('==')
     return pck
+
 
 def _validate_mutual_exclusion(add_pckgs, rm_pckgs):
     len_l_add = 0 if add_pckgs is None else len(add_pckgs)
