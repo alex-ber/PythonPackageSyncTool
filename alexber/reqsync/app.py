@@ -137,6 +137,8 @@ def _create_deque(pckgs):
     #     ret_pckgs = None if pckgs is None else deque(sorted(pckgs, key=lambda s: s.casefold()))
     # return ret_pckgs
     ret_pckgs = None if pckgs is None else deque(sorted(pckgs, key=lambda s: s.casefold()))
+    # if ret_pckgs is not None and len(ret_pckgs[0])==0:  #remove empty str
+    #     ret_pckgs.popleft()
     return ret_pckgs
 
 def run(**kwargs):
