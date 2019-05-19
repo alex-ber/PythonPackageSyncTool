@@ -121,7 +121,7 @@ def test_parse_config(request, mocker):
     exp_config_yml = dir / "config.yml"
 
     argsv = f'--config_file={exp_config_yml} ' \
-            '--add=numpy==1.16.2 ' \
+            '--add=numpy:1.16.2 ' \
         .split()
     app_conf.parse_config(args=argsv)
 

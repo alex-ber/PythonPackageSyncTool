@@ -15,7 +15,7 @@ MUTUAL_EXCLUSION_KEY= 'mutual_exclusion'
 
 BOOLEAN_KEY = {MUTUAL_EXCLUSION_KEY}
 _WHITELIST_FLAT_PREFIX = {SOURCE_KEY, DEST_KEY, RM_KEY, ADD_KEY, MUTUAL_EXCLUSION_KEY}
-
+_LIST_PREFIX = {RM_KEY, ADD_KEY}
 
 def parse_dict(d):
     dd = OrderedDict()
@@ -32,6 +32,11 @@ def parse_dict(d):
             dd[key] = val
     return dd
 
+def _ensure_list(v):
+    if "," not in v:
+        v += ","
+        return v
+    return v
 
 
 def parse_sys_args(argumentParser=None, args=None):
@@ -49,8 +54,13 @@ def parse_sys_args(argumentParser=None, args=None):
                                 const='config.yml')
     params, unknown_arg = argumentParser.parse_known_args(args=args)
 
+
     dd = argumentParser.as_dict(args=unknown_arg)
-    dd = {k: v.replace(":", "==") for k, v in dd.items() if v is not None}  # equal sing repalce work-arround
+    for key in _LIST_PREFIX:
+        val = dd.get(key, None)
+        if val is not None:
+            dd[key] = _ensure_list(val)
+    dd = {k: None if v is None else v.replace(":", "==") for k, v in dd.items()}  # equal sing repalce work-arround
     dd = parse_dict(dd)
     return params, dd
 
@@ -93,7 +103,7 @@ def parse_config(args=None):
     :return: dict ready to use
     """
     params, cli_dd = parse_sys_args(args=args)
-    filtered_cli_dd = {k: v for k, v in cli_dd.items() if v is not None}   #filter out None
+    filtered_cli_dd = {k: v for k, v in cli_dd.items() if v is not None}  # filter out None
 
     config_dd = parse_yml(params.config_file)
     dd = OrderedDict()
