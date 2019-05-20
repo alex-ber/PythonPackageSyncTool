@@ -25,6 +25,11 @@ Add test
 
 ##
 
+## [0.1.8] - 2019-05-20
+### Changed
+- README.md change, key '-U' added to pip3 install.
+
+
 ## [0.1.7] - 2019-05-20
 ### Removed
 - Some project cleanup.

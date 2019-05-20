@@ -9,7 +9,7 @@ It is used to make manipulation on requirements.txt that is produces by 'pip fre
 
 ### QuickStart
 ```bash
-pip3 install python-package-sync-tool
+pip3 install -U python-package-sync-tool
 ```
 
 ##
