@@ -69,6 +69,7 @@ class UploadCommand(setuptools.Command):
         os.system(f'git tag -d {VERSION}')
         os.system(f'git tag v{VERSION}')
         os.system('git push --tags')
+        os.system('git push')
 
         sys.exit()
 
