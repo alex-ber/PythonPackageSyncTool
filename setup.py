@@ -6,7 +6,7 @@ import sys
 from shutil import rmtree
 
 NAME = 'python_package_sync_tool'
-VERSION = '0.1.7'
+VERSION = '0.1.8'
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
