@@ -4,9 +4,22 @@ Changelog
 =========
 TODO
 
+Add test
+
+# --add=zzzzzzzzzzzzzzzzzz,
+# --add=awscli
+# --add=awscli,
+# --add=not_exists
+# --add=not_exists,
+# --remove=zzzzzzzzzzzzzzzzzz,
+# --remove=awscli
+# --remove=awscli,
+# --remove=not_exists
+# --remove=not_exists,
 
 
-3. Docstring for parse_boolean  check for 5, 0, 0.0, 2.0
+
+* Fix add zzz
 
 *   Test mutual exclusion
 

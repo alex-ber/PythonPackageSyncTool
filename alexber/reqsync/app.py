@@ -3,6 +3,7 @@ import logging.config
 
 from pathlib import Path
 import alexber.reqsync.app_conf as conf
+from alexber.reqsync.utils import is_empty
 
 from collections import deque
 
@@ -36,8 +37,7 @@ def _process_line(prev_line, cur_line, **kwargs):
     if (low_prev_line is not None) and (low_prev_line == low_cur_line):
         return None #duplicate line, ignore
 
-    tmp_len = len(low_cur_line)
-    if low_cur_line is None or tmp_len==0:
+    if is_empty(low_cur_line):
         return None #empty line, skip
 
     low_prev_pck = prev_pck.casefold()
@@ -47,20 +47,17 @@ def _process_line(prev_line, cur_line, **kwargs):
         raise ValueError("Source file expected to be sorted. Use sort utilities, for example.")
 
 
-    len_low_prev_pck = len(low_prev_pck)
-    if (len_low_prev_pck > 0) and (low_prev_pck == low_cur_pck):
+    if (is_empty(low_prev_pck)) and (low_prev_pck == low_cur_pck):
         raise ValueError(f"Packages in the source file should be unique, but duplicate package {cur_pck} is found.")
 
 
     add_pckgs = kwargs.get(conf.ADD_KEY, None)
     rm_pckgs = kwargs.get(conf.RM_KEY, None)
-    len_rm_pckgs = 0 if rm_pckgs is None else len(rm_pckgs)
     ret = deque([])
-    should_ret_line = True
     is_first_iter = True
 
     #remove packages first
-    while len_rm_pckgs>0:
+    while rm_pckgs is not None and not is_empty(rm_pckgs):
         rm_pck = rm_pckgs[0]
         low_rm_pck = rm_pck.casefold()
         if low_cur_pck < low_rm_pck:
@@ -79,15 +76,14 @@ def _process_line(prev_line, cur_line, **kwargs):
                 ret.append(cur_line)
             # we shoudn't remove rm_pck
             rm_pckgs.popleft()
-            len_rm_pckgs = 0 if rm_pckgs is None else len(rm_pckgs)
-        is_first_iter = False
+        if is_first_iter:
+            is_first_iter = False
 
 
 
     # add packages
-    len_add_pckgs = 0 if add_pckgs is None else len(add_pckgs)
 
-    while len_add_pckgs > 0:
+    while add_pckgs is not None and not is_empty(add_pckgs):
         add_line = add_pckgs[0]
         add_pck = _extact_add_pck(add_line)
 
@@ -95,15 +91,13 @@ def _process_line(prev_line, cur_line, **kwargs):
         if low_prev_pck < low_add_pck <= low_cur_pck:
             ret.append(add_line)
             add_pckgs.popleft()
-            len_add_pckgs = 0 if add_pckgs is None else len(add_pckgs)
         else:
             break
 
     return ret
 
 def _extact_add_pck(element):
-    element_len = 0 if element is None else len(element)
-    if element_len==0:
+    if element is None or is_empty(element):
         return ''
     elif '==' not in element:
         pck = element
@@ -113,10 +107,7 @@ def _extact_add_pck(element):
 
 
 def _validate_mutual_exclusion(add_pckgs, rm_pckgs):
-    len_l_add = 0 if add_pckgs is None else len(add_pckgs)
-    len_l_remove = 0 if rm_pckgs is None else len(rm_pckgs)
-
-    if len_l_add==0 or len_l_remove==0:
+    if is_empty(add_pckgs) or is_empty(rm_pckgs):
         return
 
     s_add = {_extact_add_pck(element) for element in add_pckgs}
