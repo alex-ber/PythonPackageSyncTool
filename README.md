@@ -42,7 +42,7 @@ argruments. Use ':' in places where you should naturally write '==' (see explana
 
 Parammeters 'source' and 'destination' are required. You should also provide (requirements) file for 'source'.
 
-'mutual_exclusion' has default value True.
+`mutual_exclusion` has default value True.
 
 
 

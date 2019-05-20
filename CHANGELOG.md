@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 ## [Unrelased]
+- formatting CHANGELOG.MD (minor fix)
+
 Add test
 
 + --add=zzzzzzzzzzzzzzzzzz,
@@ -24,6 +26,8 @@ Add test
 *   Test & fix use of buffer
 
 ##
+
+
 
 ## [0.1.8] - 2019-05-20
 ### Changed

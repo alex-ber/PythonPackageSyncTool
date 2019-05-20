@@ -6,7 +6,7 @@ import sys
 from shutil import rmtree
 
 NAME = 'python_package_sync_tool'
-VERSION = '0.1.8'
+VERSION = '0.1.9'
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -68,6 +68,8 @@ class UploadCommand(setuptools.Command):
         os.system('git commit -m "setup.py changed" setup.py')
         os.system(f'git tag v{VERSION}')
         os.system(f'git push origin v{VERSION}')
+        #os.system(f'git tag -d vT{VERSION}')
+        #os.system(f'git push --delete origin v{VERSION}')
         #os.system('git push --tags')
         os.system('git push')
 
