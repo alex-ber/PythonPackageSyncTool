@@ -69,7 +69,7 @@ class UploadCommand(setuptools.Command):
         os.system(f'git tag -d v{VERSION}')
         os.system(f'git tag v{VERSION}')
         os.system(f'git push --delete origin v{VERSION}')
-        os.system(f'git push tag v{VERSION}')
+        os.system(f'git push origin tag v{VERSION}')
         #os.system('git push --tags')
         os.system('git push')
 
