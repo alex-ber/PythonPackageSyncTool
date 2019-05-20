@@ -96,7 +96,7 @@ python3 -m pip install . # only installs "required"
 ```bash
 python3 -m pip install .[test] # installs dependencies for tests
 ```
-====
+##
 
 From the directory with setup.py
 ```bash
