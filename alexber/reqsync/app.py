@@ -10,7 +10,7 @@ from collections import deque
 _READ_BUFFER_SIZE = 2 ** 16
 _WRITE_BUFFER_SIZE = 2 ** 16
 
-def _getSourceGen(filename):
+def _getSourceGen(filename, more_pck):
 
     buffersize = _READ_BUFFER_SIZE
     with open(filename, 'rt') as f:
@@ -22,6 +22,13 @@ def _getSourceGen(filename):
                 pck = line.rstrip()  # remove '\r'
                 if pck:
                     yield pck
+
+    yield None
+
+    for line in deque(more_pck):        #copy-constructor
+        pck = line.rstrip()  # remove '\r'
+        if pck:
+            yield pck
 
 
 
@@ -54,35 +61,25 @@ def _process_line(prev_line, cur_line, **kwargs):
     add_pckgs = kwargs.get(conf.ADD_KEY, None)
     rm_pckgs = kwargs.get(conf.RM_KEY, None)
     ret = deque([])
-    is_first_iter = True
+    is_append_curr_line = True
 
     #remove packages first
     while rm_pckgs is not None and not is_empty(rm_pckgs):
         rm_pck = rm_pckgs[0]
         low_rm_pck = rm_pck.casefold()
         if low_cur_pck < low_rm_pck:
-            if is_first_iter:
-                # should_ret_line = True
-                ret.append(cur_line)
-            # we shoudn't remove rm_pck
+            is_append_curr_line = True
             break
         elif low_cur_pck == low_rm_pck:
             rm_pckgs.popleft()
-            #if is_first_iter:
-            #    should_ret_line = False
+            is_append_curr_line = False
             break
         else:
-            if is_first_iter:
-                ret.append(cur_line)
-            # we shoudn't remove rm_pck
             rm_pckgs.popleft()
-        if is_first_iter:
-            is_first_iter = False
-
+            continue
 
 
     # add packages
-
     while add_pckgs is not None and not is_empty(add_pckgs):
         add_line = add_pckgs[0]
         add_pck = _extact_add_pck(add_line)
@@ -90,9 +87,13 @@ def _process_line(prev_line, cur_line, **kwargs):
         low_add_pck = add_pck.casefold()
         if low_prev_pck < low_add_pck <= low_cur_pck:
             ret.append(add_line)
+            is_append_curr_line = False
             add_pckgs.popleft()
         else:
             break
+
+    if is_append_curr_line:
+        ret.append(cur_line)
 
     return ret
 
@@ -167,7 +168,7 @@ def run(**kwargs):
 
     full_src_path = Path(src_f).resolve()  # relative to cwd
     full_dest_path = Path(dest_f).resolve()  # relative to cwd
-    sourceGen = _getSourceGen(full_src_path)
+    sourceGen = _getSourceGen(full_src_path, add_pckgs)
 
     buffersize = _WRITE_BUFFER_SIZE
     lines_buffer = deque(maxlen=buffersize)

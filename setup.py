@@ -94,8 +94,8 @@ try:
         author='Alexander Berkovich',
         description='Small tool to sync package from different machines',
         long_description="\n\n".join([
-            open(os.path.join(base_dir, "README.rst"), "r").read(),
-            open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
+            open(os.path.join(base_dir, "README.md"), "r").read(),
+            open(os.path.join(base_dir, "CHANGELOG.md"), "r").read()
         ]),
         long_description_content_type="text/markdown",
         packages=setuptools.find_packages(exclude=('tests*',)),

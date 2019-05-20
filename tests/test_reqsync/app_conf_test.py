@@ -8,23 +8,16 @@ from alexber.reqsync.utils.parsers import ConfigParser
 
 import yaml
 
-from collections import OrderedDict
 
-
-# source: requirements-src.txt
-#     destination: requirements-dest.txt
-#     remove:
-#         - datashape
-#         - menuinst
 class TestFreeStyle(object):
 
     def test_parse_yaml(self, request):
         logger.info(f'{request._pyfuncitem.name}()')
         expdd = {'source': 'requirements-src.txt',
                  'destination': 'requirements-dest.txt',
-                 'remove': ['datashape', 'menuinst'],
+                 'remove': ['datashape', 'menuinst', 'graphviz', 'entrypoints', 'numpy'],
                  'add':None,
-                 'mutual_exclusion': None}
+                 'mutual_exclusion': True}
 
         dir = Path(__file__).parent
 
@@ -95,9 +88,9 @@ class TestFreeStyle(object):
         logger.info(f'{request._pyfuncitem.name}()')
         expdd = {'source': 'requirements-src.txt',
                  'destination': 'requirements-newdest.txt',
-                 'remove': ['datashape', 'menuinst'],
+                 'remove': ['datashape', 'menuinst', 'graphviz', 'entrypoints', 'numpy'],
                  'add': None,
-                 'mutual_exclusion': None}
+                 'mutual_exclusion': True}
 
         dir = Path(__file__).parent
 

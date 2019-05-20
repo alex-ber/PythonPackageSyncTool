@@ -38,6 +38,12 @@ def _ensure_list(v):
         return v
     return v
 
+def _mask_value(key, value):
+    if value is None:
+        return None
+    if key in _LIST_PREFIX:
+        value =  value.replace(":", "==")
+    return value
 
 def parse_sys_args(argumentParser=None, args=None):
     """
@@ -60,7 +66,7 @@ def parse_sys_args(argumentParser=None, args=None):
         val = dd.get(key, None)
         if val is not None:
             dd[key] = _ensure_list(val)
-    dd = {k: None if v is None else v.replace(":", "==") for k, v in dd.items()}  # equal sing repalce work-arround
+    dd = {k:_mask_value(k, v) for k, v in dd.items()}  # equal sing repalce work-arround
     dd = parse_dict(dd)
     return params, dd
 
