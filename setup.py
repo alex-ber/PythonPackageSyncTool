@@ -6,7 +6,7 @@ import sys
 from shutil import rmtree
 
 NAME = 'python_package_sync_tool'
-VERSION = '0.1.7'
+VERSION = '0.1.6'
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -71,8 +71,19 @@ class UploadCommand(setuptools.Command):
         sys.exit()
 
 #python3 -m keyring set https://upload.pypi.org/legacy/ alex-ber
+
+
+
 try:
-    os.symlink(os.path.join('..', '..', 'data'), lnk_data)
+    try:
+        os.unlink(lnk_data)
+    except OSError:
+        pass
+    try:
+        os.symlink(os.path.join('..', '..', 'data'), lnk_data)
+    except OSError:
+        pass
+
     setup(
         name=NAME,
         version=VERSION,
