@@ -64,10 +64,11 @@ class UploadCommand(setuptools.Command):
         os.system('twine upload dist/*')
 
         self.status('Pushing git tags...')
+        os.system('git fetch')
         os.system('git commit -m "setup.py changed" setup.py')
         os.system(f'git tag -d v{VERSION}')
         os.system(f'git tag v{VERSION}')
-        os.system(f'git push --delete v{VERSION}')
+        os.system(f'git push --delete origin v{VERSION}')
         os.system(f'git push tag v{VERSION}')
         #os.system('git push --tags')
         os.system('git push')
