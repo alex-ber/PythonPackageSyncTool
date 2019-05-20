@@ -141,8 +141,11 @@ try:
     )
 
 finally:
-    os.unlink(lnk_data)
-    pass
+    try:
+        os.unlink(lnk_data)
+    except OSError:
+        pass
+
 
 
 
