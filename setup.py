@@ -5,7 +5,8 @@ import os
 import sys
 from shutil import rmtree
 
-VERSION = '0.1.5c'
+NAME = 'python_package_sync_tool'
+VERSION = '0.1.6'
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -23,6 +24,12 @@ extras = {
 }
 
 lnk_data = os.path.join('alexber', 'reqsync', 'data')
+
+def my_rmtree(path, ignore_errors=False, onerror=None):
+    try:
+        rmtree(path, ignore_errors, onerror)
+    except OSError:
+        pass
 
 #adapted from https://github.com/kennethreitz/setup.py/blob/master/setup.py
 class UploadCommand(setuptools.Command):
@@ -43,12 +50,11 @@ class UploadCommand(setuptools.Command):
         pass
 
     def run(self):
-        try:
-            self.status('Removing previous builds...')
-            #rm -rf build *.egg-info dist
-            rmtree(os.path.join(base_dir, 'dist'))
-        except OSError:
-            pass
+        self.status('Removing previous builds...')
+        # rm -rf build *.egg-info dist
+        my_rmtree(os.path.join(base_dir, 'build'))
+        my_rmtree(os.path.join(base_dir, 'f{NAME}.egg-info'))
+        my_rmtree(os.path.join(base_dir, 'dist'))
 
         self.status('Building Source and Wheel distribution...')
         os.system(f'{sys.executable} setup.py sdist bdist_wheel')
@@ -58,6 +64,7 @@ class UploadCommand(setuptools.Command):
         os.system('twine upload dist/*')
 
         self.status('Pushing git tags...')
+        os.system('git commit -m "setup.py changed" setup.py')
         os.system(f'git tag v{VERSION}')
         os.system('git push --tags')
 
@@ -67,8 +74,8 @@ class UploadCommand(setuptools.Command):
 try:
     os.symlink(os.path.join('..', '..', 'data'), lnk_data)
     setup(
-        name='python-package-sync-tool',
-        version='0.1.5',
+        name=NAME,
+        version=VERSION,
         url='https://github.com/alex-ber/PythonPackageSyncTool',
         author='Alexander Berkovich',
         description='Small tool to sync package from different machines',
