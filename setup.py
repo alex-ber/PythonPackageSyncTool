@@ -6,7 +6,7 @@ import sys
 from shutil import rmtree
 
 NAME = 'python_package_sync_tool'
-VERSION = '0.1.6'
+VERSION = '0.1.7'
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -34,14 +34,13 @@ def my_rmtree(path, ignore_errors=False, onerror=None):
 #adapted from https://github.com/kennethreitz/setup.py/blob/master/setup.py
 class UploadCommand(setuptools.Command):
     """Support setup.py upload."""
-
     description = 'Build and publish the package.'
     user_options = []
 
     @staticmethod
     def status(s):
         """Prints things in bold."""
-        print('\033[1m{0}\033[0m'.format(s))
+        print(f'\033[1m{s}\033[0m')
 
     def initialize_options(self):
         pass
@@ -61,16 +60,19 @@ class UploadCommand(setuptools.Command):
         #os.system('python3 setup.py sdist bdist_wheel')
 
         self.status('Uploading the package to PyPI via Twine...')
+        # python3 -m keyring set https://upload.pypi.org/legacy/ alex-ber
         os.system('twine upload dist/*')
 
         self.status('Pushing git tags...')
         os.system('git commit -m "setup.py changed" setup.py')
+        os.system(f'git push :refs/tags/{VERSION}')
+        os.system(f'git tag -d {VERSION}')
         os.system(f'git tag v{VERSION}')
         os.system('git push --tags')
 
         sys.exit()
 
-#python3 -m keyring set https://upload.pypi.org/legacy/ alex-ber
+
 
 
 
@@ -94,6 +96,7 @@ try:
             open(os.path.join(base_dir, "README.rst"), "r").read(),
             open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
         ]),
+        long_description_content_type="text/markdown",
         packages=setuptools.find_packages(exclude=('tests*',)),
         #see https://stackoverflow.com/a/26533921
         #see also https://stackoverflow.com/questions/24347450/how-do-you-add-additional-files-to-a-wheel
