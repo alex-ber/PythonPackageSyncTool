@@ -66,10 +66,8 @@ class UploadCommand(setuptools.Command):
         self.status('Pushing git tags...')
         os.system('git fetch')
         os.system('git commit -m "setup.py changed" setup.py')
-        os.system(f'git tag -d v{VERSION}')
         os.system(f'git tag v{VERSION}')
-        os.system(f'git push --delete origin v{VERSION}')
-        os.system(f'git push origin tag v{VERSION}')
+        os.system(f'git push origin v{VERSION}')
         #os.system('git push --tags')
         os.system('git push')
 
