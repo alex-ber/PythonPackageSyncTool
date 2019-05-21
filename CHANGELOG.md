@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unrelased]
 - formatting CHANGELOG.MD (minor fix)
+- Added alternative of usage of python_package_sync_tool to README.md
 
 Add test
 

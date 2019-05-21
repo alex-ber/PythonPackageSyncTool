@@ -84,10 +84,8 @@ try:
         os.unlink(lnk_data)
     except OSError:
         pass
-    try:
-        os.symlink(os.path.join('..', '..', 'data'), lnk_data)
-    except OSError:
-        pass
+
+    os.symlink(os.path.join('..', '..', 'data'), lnk_data)
 
     setup(
         name=NAME,
@@ -114,7 +112,7 @@ try:
         include_package_data=True,
         install_requires=install_requires,
         entry_points={"console_scripts": [
-            "python-package-sync-tool=alexber.data.__main__:main"
+            "python-package-sync-tool=alexber.reqsync.data.__main__:main"
         ]},
         # $ setup.py publish support.
         # python3 setup.py upload

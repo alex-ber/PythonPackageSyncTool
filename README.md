@@ -57,6 +57,13 @@ or if you're using script (driver.py) go the directory with the script and type
 ```bash
 ./driver.py --add=some_new_package:1.0.0
 ```
+
+or if you install my tool to Anaconda/Python/venv that has it's bin folder is in the Path
+you can run  
+```bash
+python_package_sync_tool --add=some_new_package:1.0.0
+```
+
 This will run quick check whether package is not in remove list. If it is, the utility will fail. You can override this
 beahivor by supplying `--mutual_exclusion=False`. 
 
