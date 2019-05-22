@@ -44,6 +44,7 @@ Add test
 ### Changed
 - Added alex-ber-utils as dependency. 
 - Deleting old README-old.rst file.
+- requirements-src.txt updated.
 
 ## [0.1.8] - 2019-05-20
 ### Changed

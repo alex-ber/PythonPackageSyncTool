@@ -62,7 +62,7 @@ try:
         include_package_data=True,
         install_requires=install_requires,
         entry_points={"console_scripts": [
-            f"python-package-sync-tool=alexber.{SHORT_NAME}.data.__main__:main"
+            f"python-package-sync-tool=alexber.{SHORT_NAME}.data.__main__:main",
         ]},
         # $ setup.py publish support.
         # python3 setup.py upload
