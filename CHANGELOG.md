@@ -28,6 +28,7 @@ Add test
 
 *   Test & fix use of buffer
 
+
 ##
 
 ## [0.2.4] - 2019-05-22
