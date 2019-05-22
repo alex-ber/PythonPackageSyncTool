@@ -4,7 +4,7 @@ import os
 
 from alexber.utils import UploadCommand
 
-VERSION = '0.2.1'
+VERSION = '0.2.2'
 NAME = 'python_package_sync_tool'
 SHORT_NAME = 'reqsync'
 VCS_URL = 'https://github.com/alex-ber/PythonPackageSyncTool'
@@ -63,6 +63,7 @@ try:
         install_requires=install_requires,
         entry_points={"console_scripts": [
             f"python-package-sync-tool=alexber.{SHORT_NAME}.data.__main__:main",
+            f"reqsync=alexber.{SHORT_NAME}.data.__main__:main",
         ]},
         # $ setup.py publish support.
         # python3 setup.py upload

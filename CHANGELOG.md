@@ -32,6 +32,11 @@ Add test
 
 
 
+## [0.2.2] - 2019-05-22
+- Fixing python-package-sync-tool.
+- Creating alias reqsync to python-package-sync-tool.
+- Some minour fixed.
+
 
 ## [0.2.1] - 2019-05-22
 - Changing dependency version of alex-ber-utils to 0.2.1.
