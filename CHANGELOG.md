@@ -31,18 +31,24 @@ Add test
 ##
 
 
+## [0.2.3] - 2019-05-22
+### Changed
+- Upgrading urllib3, SQLAlchemy, pycrypto dependenies beacause of volnurabilities issues.
 
 ## [0.2.2] - 2019-05-22
+### Changed
 - Fixing python-package-sync-tool.
 - Creating alias reqsync to python-package-sync-tool.
 - Some minour fixed.
 
 
 ## [0.2.1] - 2019-05-22
+### Changed
 - Changing dependency version of alex-ber-utils to 0.2.1.
 
 
 ## [0.2.0] - 2019-05-22
+### Changed
 - Only bumping up version.
 
 ## [0.1.9] - 2019-05-22
