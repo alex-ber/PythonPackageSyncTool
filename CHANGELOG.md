@@ -4,13 +4,6 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 ## [Unrelased]
-- formatting CHANGELOG.MD (minor fix)
-- Added alternative of usage of python_package_sync_tool to README.md
-- Fixing bug that --add is empty
-- Factor out tests_data to seperate folder, use importlib.resources API.  
-- Updated README-old.rst
-
-
 @ Enhanced test
 @ Non-sorted requirements-src
 @ Empty add and remove
@@ -38,6 +31,9 @@ Add test
 ##
 
 
+## [0.2.1] - 2019-05-22
+- Changing dependency version of alex-ber-utils to 0.2.1.
+
 
 ## [0.2.0] - 2019-05-22
 - Only bumping up version.
@@ -48,6 +44,12 @@ Add test
 - Deleting old README-old.rst file.
 - requirements-src.txt updated.
 - Clarification added to README.md that alex_ber_utils should be installed first.
+- formatting CHANGELOG.MD (minor fix)
+- Added alternative of usage of python_package_sync_tool to README.md
+- Fixing bug that --add is empty
+- Factor out tests_data to seperate folder, use importlib.resources API.  
+- Updated README-old.rst
+
 
 ## [0.1.8] - 2019-05-20
 ### Changed
