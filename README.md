@@ -74,6 +74,14 @@ you can run
 python_package_sync_tool --add=some_new_package:1.0.0
 ```
 
+or alternativley
+
+you can run  
+```bash
+reqsync --add=some_new_package:1.0.0
+```
+
+
 This will run quick check whether package is not in remove list. If it is, the utility will fail. You can override this
 beahivor by supplying `--mutual_exclusion=False`. 
 
