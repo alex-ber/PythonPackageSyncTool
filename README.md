@@ -105,21 +105,21 @@ or if you're using script (driver.py) go the directory with the script and type
 ```
 
 
-### Installing from Githib
+### Installing from Github
 
 ```bash
-python3 -m pip install -U https://github.com/alex-ber/AlexBerUtils/archive/master.zip
+python3 -m pip install -U https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip
 ```
 Optionally installing tests requirements.
 
 ```bash
-python3 -m pip install -U https://github.com/alex-ber/AlexBerUtils/archive/master.zip#egg=alex-ber-utils[tests]
+python3 -m pip install -U https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip#egg=alex-ber-utils[tests]
 ```
 
 Or explicitly:
 
 ```bash
-wget https://github.com/alex-ber/AlexBerUtils/archive/master.zip -O master.zip; unzip master.zip; rm master.zip
+wget https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip -O master.zip; unzip master.zip; rm master.zip
 ```
 And then installing from source (see below).
 
