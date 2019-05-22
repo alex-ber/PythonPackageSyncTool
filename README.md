@@ -8,6 +8,15 @@ It is used to make manipulation on requirements.txt that is produces by 'pip fre
 
 
 ### QuickStart
+First of all you should install alex_ber_utils (this dependency is used in setup.py). 
+
+```bash
+pip3 install -U alex_ber_utils
+```
+
+##
+Than:
+
 ```bash
 pip3 install -U python-package-sync-tool
 ```

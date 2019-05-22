@@ -45,6 +45,7 @@ Add test
 - Added alex-ber-utils as dependency. 
 - Deleting old README-old.rst file.
 - requirements-src.txt updated.
+- Clarification added to README.md that alex_ber_utils should be installed first.
 
 ## [0.1.8] - 2019-05-20
 ### Changed
