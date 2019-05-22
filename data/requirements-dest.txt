@@ -1,5 +1,5 @@
 alabaster==0.7.12
-alex-ber-utils==0.2.1
+alex-ber-utils==0.2.4
 appdirs==1.4.3
 asn1crypto==0.24.0
 astroid==2.1.0
