@@ -160,3 +160,5 @@ PythonPackageSyncTool requires the following modules.
 * Python 3.7+
 
 * PyYAML==5.1
+
+* alex-ber-utils==0.2.5
