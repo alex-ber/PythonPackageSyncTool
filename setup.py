@@ -1,19 +1,20 @@
 import setuptools
 from setuptools import setup
 import os
+
+VERSION = '0.2.4'
 import sys
+sys.argv.append(f'--version=VERSION')
 
 from alexber.utils import UploadCommand
 
-VERSION = '0.2.4'
+
 NAME = 'python_package_sync_tool'
 SHORT_NAME = 'reqsync'
 VCS_URL = 'https://github.com/alex-ber/PythonPackageSyncTool'
 DESCRIPTION = 'Small tool to sync package from different machines'
 AUTHOR = 'Alexander Berkovich'
 
-#import sys
-#sys.argv.append(f'--version=VERSION')
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
