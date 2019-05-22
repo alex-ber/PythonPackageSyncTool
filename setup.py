@@ -4,7 +4,7 @@ import os
 
 from alexber.utils import UploadCommand
 
-VERSION = '0.2.3'
+VERSION = '0.2.4'
 NAME = 'python_package_sync_tool'
 SHORT_NAME = 'reqsync'
 VCS_URL = 'https://github.com/alex-ber/PythonPackageSyncTool'

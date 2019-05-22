@@ -30,6 +30,10 @@ Add test
 
 ##
 
+## [0.2.4] - 2019-05-22
+### Changed
+- Adding dependecny alex-ber-utils 0.2.1 to README.md.
+
 
 ## [0.2.3] - 2019-05-22
 ### Changed
