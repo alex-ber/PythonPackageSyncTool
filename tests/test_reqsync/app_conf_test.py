@@ -7,7 +7,8 @@ from alexber.reqsync import app_conf
 from alexber.reqsync.utils.parsers import ConfigParser
 
 import yaml
-
+from importlib.resources import open_text, path
+from contextlib import ExitStack
 
 class TestFreeStyle(object):
 
@@ -19,9 +20,7 @@ class TestFreeStyle(object):
                  'add':None,
                  'mutual_exclusion': True}
 
-        dir = Path(__file__).parent
-
-        with open(dir / 'config.yml') as f:
+        with open_text('tests_data.' + __package__, 'config.yml') as f:
             d = yaml.safe_load(f)
         d = d['treeroot']
         dd = app_conf.parse_dict(d)
@@ -71,11 +70,9 @@ class TestFreeStyle(object):
                  'mutual_exclusion': None}
 
         parser = ConfigParser()
-        dir = Path(__file__).parent
 
-        full_path = Path(dir / 'config.ini')
-
-        parser.read(full_path)
+        with path('tests_data.' + __package__, 'config.ini') as full_path:
+            parser.read(full_path)
         dd = parser.as_dict()
         dd= dd['treeroot']
         dd = app_conf.parse_dict(dd)
@@ -92,9 +89,8 @@ class TestFreeStyle(object):
                  'add': None,
                  'mutual_exclusion': True}
 
-        dir = Path(__file__).parent
-
-        argsv = f'--config_file={dir / "config.yml"} ' \
+        with path('tests_data.' + __package__, 'config.yml') as config_file:
+            argsv = f'--config_file={config_file} ' \
                 '--destination=requirements-newdest.txt ' \
             .split()
         dd = app_conf.parse_config(args=argsv)
@@ -108,13 +104,13 @@ def test_parse_config(request, mocker):
 
     mocker.spy(app_conf, 'parse_sys_args')
     mocker.spy(app_conf, 'parse_yml')
+    file_manager = ExitStack()
 
-
-    dir = Path(__file__).parent
-    exp_config_yml = dir / "config.yml"
+    exp_config_yml= file_manager.enter_context(
+        path('tests_data.' + __package__, 'config.yml'))
 
     argsv = f'--config_file={exp_config_yml} ' \
-            '--add=numpy:1.16.2 ' \
+        '--add=numpy:1.16.2 ' \
         .split()
     app_conf.parse_config(args=argsv)
 
@@ -123,7 +119,11 @@ def test_parse_config(request, mocker):
 
     params, _ = app_conf.parse_sys_args()
     # params return from parse_sys_args() contains exp_config_yml
-    pytest.assume(exp_config_yml == Path(dir / params.config_file))
+
+    actual_config_file = file_manager.enter_context(
+        path('tests_data.' + __package__, params.config_file))
+
+    pytest.assume(exp_config_yml == actual_config_file)
 
     #exp_config_yml was passed to parse_yml()
     (config_file,), _ =  app_conf.parse_yml.call_args

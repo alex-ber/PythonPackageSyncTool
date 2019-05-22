@@ -9,6 +9,7 @@ from alexber.reqsync.utils.parsers import ConfigParser, ArgumentParser, safe_eva
 logger = logging.getLogger(__name__)
 from pathlib import Path
 import yaml
+from importlib.resources import open_text, path
 
 
 def test_parse_yaml(request):
@@ -17,10 +18,9 @@ def test_parse_yaml(request):
              'destination': 'requirements-dest.txt',
              'remove': ['datashape', 'menuinst']}
 
-    dir = Path(__file__).parent
-
-    with open(dir / 'config.yml') as f:
+    with open_text('tests_data.'+ __package__, 'config.yml') as f:
         d = yaml.safe_load(f)
+
     dd= d['treeroot']
     assert expdd == dd
 
@@ -32,11 +32,8 @@ def test_parse_ini(request):
              }
 
     parser = ConfigParser()
-    dir = Path(__file__).parent
-
-    full_path = Path(dir / 'config.ini')
-
-    parser.read(full_path)
+    with path('tests_data.'+ __package__, 'config.ini') as full_path:
+        parser.read(full_path)
     dd = parser.as_dict()
     dd = dd['treeroot']
 

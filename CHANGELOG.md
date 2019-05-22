@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 ## [Unrelased]
 - formatting CHANGELOG.MD (minor fix)
 - Added alternative of usage of python_package_sync_tool to README.md
+- Fixing bug that --add is empty
+- Factor out tests_data to seperate folder, use importlib.resources API.  
+
+@ Enhanced test
+@ Non-sorted requirements-src
+@ Empty add and remove
+
 
 Add test
 

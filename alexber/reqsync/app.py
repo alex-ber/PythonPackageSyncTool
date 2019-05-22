@@ -23,12 +23,14 @@ def _getSourceGen(filename, more_pck):
                 if pck:
                     yield pck
 
-    yield None
+    if more_pck is not None:
+        yield None
 
-    for line in deque(more_pck):        #copy-constructor
-        pck = line.rstrip()  # remove '\r'
-        if pck:
-            yield pck
+        for line in deque(more_pck):  # copy-constructor
+            pck = line.rstrip()  # remove '\r'
+            if pck:
+                yield pck
+
 
 
 
