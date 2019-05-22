@@ -1,11 +1,10 @@
 import logging
 logger = logging.getLogger(__name__)
-from pathlib import Path
 
 import pytest
 from alexber.reqsync import app
 from contextlib import ExitStack
-from importlib.resources import open_text, path
+from importlib.resources import path
 
 @pytest.mark.it
 def test_it_full_single_package(request, mocker):

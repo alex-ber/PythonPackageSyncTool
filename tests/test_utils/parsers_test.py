@@ -1,13 +1,12 @@
-import logging
-import pytest
-
 import enum
+import logging
 from enum import Enum
 
-from alexber.reqsync.utils.parsers import ConfigParser, ArgumentParser, safe_eval, is_empty, parse_boolean
+import pytest
+
+from alexber.reqsync.utils.parsers import ConfigParser, ArgumentParser, is_empty, parse_boolean
 
 logger = logging.getLogger(__name__)
-from pathlib import Path
 import yaml
 from importlib.resources import open_text, path
 
