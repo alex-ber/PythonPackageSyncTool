@@ -1,6 +1,7 @@
 import setuptools
 from setuptools import setup
 import os
+import sys
 
 from alexber.utils import UploadCommand
 
@@ -11,6 +12,8 @@ VCS_URL = 'https://github.com/alex-ber/PythonPackageSyncTool'
 DESCRIPTION = 'Small tool to sync package from different machines'
 AUTHOR = 'Alexander Berkovich'
 
+import sys
+sys.argv.append(f'--version=VERSION')
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -26,6 +29,8 @@ extras = {
     #'ws': get_content('requirements-ws.txt'),
     'tests': tests_require
 }
+
+
 
 lnk_data = os.path.join('alexber', SHORT_NAME, 'data')
 
