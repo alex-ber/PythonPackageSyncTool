@@ -2,13 +2,10 @@ import setuptools
 from setuptools import setup
 import os
 
+
+#VERSION should be defined before importing UploadCommand
 VERSION = '0.2.4'
-import sys
-sys.argv.append(f'--version=VERSION')
-
 from alexber.utils import UploadCommand
-
-
 NAME = 'python_package_sync_tool'
 SHORT_NAME = 'reqsync'
 VCS_URL = 'https://github.com/alex-ber/PythonPackageSyncTool'
