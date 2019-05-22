@@ -17,6 +17,7 @@ pip3 install -U alex_ber_utils
 ##
 Than:
 
+
 ```bash
 pip3 install -U python-package-sync-tool
 ```
@@ -102,6 +103,25 @@ or if you're using script (driver.py) go the directory with the script and type
 ```bash
 ./driver.py --add=some_new_package:1.0.0,another_new_package:2.0.0
 ```
+
+
+### Installing from Githib
+
+```bash
+python3 -m pip install -U https://github.com/alex-ber/AlexBerUtils/archive/master.zip
+```
+Optionally installing tests requirements.
+
+```bash
+python3 -m pip install -U https://github.com/alex-ber/AlexBerUtils/archive/master.zip#egg=alex-ber-utils[tests]
+```
+
+Or explicitly:
+
+```bash
+wget https://github.com/alex-ber/AlexBerUtils/archive/master.zip -O master.zip; unzip master.zip; rm master.zip
+```
+And then installing from source (see below).
 
 
 
