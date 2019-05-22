@@ -12,13 +12,13 @@ QuickStart
 ==========
 #wget https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip -O master.zip; unzip master.zip; rm master.zip
 
-pip3 install https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip#egg=python-package-sync-tool[tests]
+pip3 install -U https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip#egg=python-package-sync-tool[tests]
 
 
 
 ====
 
-python3 -m pip install https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip
+python3 -m pip install -U https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip
 
 cd /opt/anaconda3/lib/python3.7/site-packages/alexber/reqsync/data/
 
@@ -55,6 +55,8 @@ Parammeters 'source' and 'destination' are required. You should also provide (re
 After you'll go to the directory with driver script (whether provided or that you've just written). Type
 
 Note: I'm assuming hear that you have config.yml as in data/config.yml.
+
+cp __main__.py driver.py
 
 chmod 755 driver.py
 
