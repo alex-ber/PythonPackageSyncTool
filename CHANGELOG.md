@@ -31,6 +31,14 @@ Add test
 
 ##
 
+## [0.2.6] - 2019-05-22
+- Dependency alex-ber-utils bumped up to 0.2.3.
+
+## [0.2.5] - 2019-05-22
+### Changed
+- Fixed bug in setup.py, incorrect order between VERSION and UploadCommand (no tag was created on upload)
+- Dependency alex-ber-utils bumped up to 0.2.2. 
+
 ## [0.2.4] - 2019-05-22
 ### Changed
 - Adding dependency alex-ber-utils 0.2.1 to README.md.
