@@ -39,8 +39,10 @@ Add test
 
 
 
-
 ## [0.2.0] - 2019-05-22
+- Only bumping up version.
+
+## [0.1.9] - 2019-05-22
 ### Changed
 - Added alex-ber-utils as dependency. 
 - Deleting old README-old.rst file.
