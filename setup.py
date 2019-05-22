@@ -12,8 +12,8 @@ VCS_URL = 'https://github.com/alex-ber/PythonPackageSyncTool'
 DESCRIPTION = 'Small tool to sync package from different machines'
 AUTHOR = 'Alexander Berkovich'
 
-import sys
-sys.argv.append(f'--version=VERSION')
+#import sys
+#sys.argv.append(f'--version=VERSION')
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
