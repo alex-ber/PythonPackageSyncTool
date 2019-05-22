@@ -31,6 +31,9 @@ Add test
 
 ##
 
+## [0.2.9] - 2019-05-22
+- Dependency alex-ber-utils bumped up to 0.2.5.
+
 ## [0.2.8] - 2019-05-22
 - Dependency alex-ber-utils bumped up to 0.2.4.
 
