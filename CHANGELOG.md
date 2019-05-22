@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 - Added alternative of usage of python_package_sync_tool to README.md
 - Fixing bug that --add is empty
 - Factor out tests_data to seperate folder, use importlib.resources API.  
+- Updated README-old.rst
+
 
 @ Enhanced test
 @ Non-sorted requirements-src
@@ -36,6 +38,11 @@ Add test
 ##
 
 
+
+## [0.2.0] - 2019-05-22
+### Changed
+- Added alex-ber-utils as dependency. 
+- Deleting old README-old.rst file.
 
 ## [0.1.8] - 2019-05-20
 ### Changed
