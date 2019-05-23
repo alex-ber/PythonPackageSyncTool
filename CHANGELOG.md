@@ -4,21 +4,6 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 ## [Unrelased]
-Add test
-
-+ --add=zzzzzzzzzzzzzzzzzz,
-+ --add=awscli
-+ --add=awscli,
-+ --add=not_exists
-+ --add=not_exists,
-- --add=aaaaaaaaaaaaaaaaaaa
-- Change assert to more thoroguh
-- --remove=zzzzzzzzzzzzzzzzzz,
-- --remove=awscli
-- --remove=awscli,
-- --remove=not_exists
-- --remove=not_exists,
-##
 *   Test mutual exclusion
 
 *   Test & fix use of buffer
@@ -30,6 +15,9 @@ Add test
 - Add unit-test for non-sorted requirements-src.
 - Add unit-test that check run with empty add and empty remvoe.
 - Bug fix (and unit-test added) that check adding packages before all existing one.
+- Add unit-test that check removing single package.
+- Add unit-test that check remove first package in requirements-src.
+- Add unit-test that check remove last package in requirements-src. 
 
 
 ## [0.2.11] - 2019-05-22

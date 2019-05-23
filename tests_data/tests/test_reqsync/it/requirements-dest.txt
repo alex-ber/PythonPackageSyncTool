@@ -1,7 +1,8 @@
-aaa==1.0.0
 appdirs==1.4.3
 bcrypt==3.1.6
 defusedxml==0.6.0
+entrypoints==0.2.3
+graphviz==2.38.0
 h2==3.1.0
 hpack==3.0.0
 hyperframe==5.2.0

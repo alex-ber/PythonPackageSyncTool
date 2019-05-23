@@ -205,5 +205,96 @@ def test_it_full_single_package_first(request, mocker):
         output_path=exp_output,
         new_lines=[exp_line],
         removed_lines=_calc_removed_lines_lines(exp_config_yml))
+
+
+@pytest.mark.it
+def test_it_remove_single_package(request, mocker):
+    logger.info(f'{request._pyfuncitem.name}()')
+    file_manager = ExitStack()
+
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
+    exp_config_yml = file_manager.enter_context(
+        path(pck,  "config.yml"))
+    exp_input = file_manager.enter_context(
+        path(pck, 'requirements-src.txt'))
+    exp_output= file_manager.enter_context(
+        path(pck, 'requirements-dest.txt'))
+
+    remove_package = 'numpy'
+
+
+    argsv = f'--config_file={exp_config_yml} ' \
+            f'--source={exp_input} ' \
+            f'--destination={exp_output} ' \
+            f'--remove={remove_package} ' \
+        .split()
+    app.main(argsv)
+
+    validate_result(
+        input_path=exp_input,
+        output_path=exp_output,
+        removed_lines=[remove_package])
+
+
+@pytest.mark.it
+def test_it_remove_single_package_first(request, mocker):
+    logger.info(f'{request._pyfuncitem.name}()')
+    file_manager = ExitStack()
+
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
+    exp_config_yml = file_manager.enter_context(
+        path(pck,  "config.yml"))
+    exp_input = file_manager.enter_context(
+        path(pck, 'requirements-src.txt'))
+    exp_output= file_manager.enter_context(
+        path(pck, 'requirements-dest.txt'))
+
+    remove_package = 'appdirs'
+
+
+    argsv = f'--config_file={exp_config_yml} ' \
+            f'--source={exp_input} ' \
+            f'--destination={exp_output} ' \
+            f'--remove={remove_package} ' \
+        .split()
+    app.main(argsv)
+
+    validate_result(
+        input_path=exp_input,
+        output_path=exp_output,
+        removed_lines=[remove_package])
+
+@pytest.mark.it
+def test_it_remove_single_package_last(request, mocker):
+    logger.info(f'{request._pyfuncitem.name}()')
+    file_manager = ExitStack()
+
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
+    exp_config_yml = file_manager.enter_context(
+        path(pck,  "config.yml"))
+    exp_input = file_manager.enter_context(
+        path(pck, 'requirements-src.txt'))
+    exp_output= file_manager.enter_context(
+        path(pck, 'requirements-dest.txt'))
+
+    remove_package = 'wstools'
+
+
+    argsv = f'--config_file={exp_config_yml} ' \
+            f'--source={exp_input} ' \
+            f'--destination={exp_output} ' \
+            f'--remove={remove_package} ' \
+        .split()
+    app.main(argsv)
+
+    validate_result(
+        input_path=exp_input,
+        output_path=exp_output,
+        removed_lines=[remove_package])
+
+
 if __name__ == "__main__":
     pytest.main([__file__])
