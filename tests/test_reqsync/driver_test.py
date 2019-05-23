@@ -173,5 +173,37 @@ def test_it_full_single_package_last(request, mocker):
         new_lines=[exp_line],
         removed_lines=_calc_removed_lines_lines(exp_config_yml))
 
+
+@pytest.mark.it
+def test_it_full_single_package_first(request, mocker):
+    logger.info(f'{request._pyfuncitem.name}()')
+
+    file_manager = ExitStack()
+
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
+    exp_config_yml = file_manager.enter_context(
+        path(pck, "config.yml"))
+    exp_input = file_manager.enter_context(
+        path(pck, 'requirements-src.txt'))
+    exp_output = file_manager.enter_context(
+        path(pck, 'requirements-dest.txt'))
+    exp_package = 'aaa'
+    exp_version = '1.0.0'
+    exp_line = f'{exp_package}=={exp_version}'
+
+    argsv = f'--config_file={exp_config_yml} ' \
+            f'--source={exp_input} ' \
+            f'--destination={exp_output} ' \
+            f'--add={exp_package}:{exp_version}, ' \
+        .split()
+
+    app.main(argsv)
+
+    validate_result(
+        input_path=exp_input,
+        output_path=exp_output,
+        new_lines=[exp_line],
+        removed_lines=_calc_removed_lines_lines(exp_config_yml))
 if __name__ == "__main__":
     pytest.main([__file__])

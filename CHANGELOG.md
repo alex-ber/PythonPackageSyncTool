@@ -29,7 +29,7 @@ Add test
 - Added more detail assertion to integration tests.
 - Add unit-test for non-sorted requirements-src.
 - Add unit-test that check run with empty add and empty remvoe.
- 
+- Bug fix (and unit-test added) that check adding packages before all existing one.
 
 
 ## [0.2.11] - 2019-05-22

@@ -11,6 +11,7 @@ _READ_BUFFER_SIZE = 2 ** 16
 _WRITE_BUFFER_SIZE = 2 ** 16
 
 def _getSourceGen(filename, more_pck):
+    yield None  # gracefully handled adding package before all existing ones
 
     buffersize = _READ_BUFFER_SIZE
     with open(filename, 'rt') as f:
@@ -24,12 +25,15 @@ def _getSourceGen(filename, more_pck):
                     yield pck
 
     if more_pck is not None:
-        yield None
+        yield None  # to nullify prev_line
 
-        for line in deque(more_pck):  # copy-constructor
+        for line in deque(more_pck):  # copy-constructor, more_pck is also changed outside, so
+            # on first usage, we're creating the copy
+            # (duplication is handled correctly by the code)
             pck = line.rstrip()  # remove '\r'
             if pck:
                 yield pck
+
 
 
 
@@ -43,20 +47,18 @@ def _process_line(prev_line, cur_line, **kwargs):
     low_prev_line = None if prev_line is None else prev_line.casefold()
     low_cur_line = None if cur_line is None else cur_line.casefold()
 
-    if (low_prev_line is not None) and (low_prev_line == low_cur_line):
+    if (low_prev_line is not None) and (low_prev_line == low_cur_line) and not is_empty(low_cur_line):
         return None #duplicate line, ignore
 
-    if is_empty(low_cur_line):
-        return None #empty line, skip
 
     low_prev_pck = prev_pck.casefold()
     low_cur_pck = cur_pck.casefold()
 
-    if (low_prev_line is not None) and (low_prev_pck > low_cur_pck):
+    if (low_prev_line is not None) and (low_prev_pck > low_cur_pck) and not is_empty(low_cur_pck):
         raise ValueError("Source file expected to be sorted. Use sort utilities, for example.")
 
 
-    if (is_empty(low_prev_pck)) and (low_prev_pck == low_cur_pck):
+    if (is_empty(low_prev_pck)) and (low_prev_pck == low_cur_pck) and not is_empty(low_cur_pck):
         raise ValueError(f"Packages in the source file should be unique, but duplicate package {cur_pck} is found.")
 
 
@@ -66,9 +68,10 @@ def _process_line(prev_line, cur_line, **kwargs):
     is_append_curr_line = True
 
     #remove packages first
-    while rm_pckgs is not None and not is_empty(rm_pckgs):
+    while rm_pckgs is not None and not is_empty(rm_pckgs) and not is_empty(low_cur_pck):
         rm_pck = rm_pckgs[0]
         low_rm_pck = rm_pck.casefold()
+
         if low_cur_pck < low_rm_pck:
             is_append_curr_line = True
             break
@@ -84,22 +87,22 @@ def _process_line(prev_line, cur_line, **kwargs):
     # add packages
     while add_pckgs is not None and not is_empty(add_pckgs):
         add_line = add_pckgs[0]
-        add_pck = _extact_add_pck(add_line)
+        add_pck = _extract_pck(add_line)
 
         low_add_pck = add_pck.casefold()
-        if low_prev_pck < low_add_pck <= low_cur_pck:
+        if is_empty(low_cur_pck) or (low_prev_pck < low_add_pck <= low_cur_pck):
             ret.append(add_line)
             is_append_curr_line = False
             add_pckgs.popleft()
         else:
             break
 
-    if is_append_curr_line:
+    if is_append_curr_line and not is_empty(cur_line):
         ret.append(cur_line)
 
     return ret
 
-def _extact_add_pck(element):
+def _extract_pck(element):
     if element is None or is_empty(element):
         return ''
     elif '==' not in element:
@@ -113,7 +116,7 @@ def _validate_mutual_exclusion(add_pckgs, rm_pckgs):
     if is_empty(add_pckgs) or is_empty(rm_pckgs):
         return
 
-    s_add = {_extact_add_pck(element) for element in add_pckgs}
+    s_add = {_extract_pck(element) for element in add_pckgs}
     for pck in rm_pckgs:
         if pck.casefold() in s_add:
             raise ValueError(f"Mutual_Exclusion enabled, but {pck} was found in both lists")
