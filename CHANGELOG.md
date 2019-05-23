@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 ## [Unrelased]
-@ Enhanced test
 @ Non-sorted requirements-src
 @ Empty add and remove
 
@@ -30,6 +29,9 @@ Add test
 
 
 ##
+## [0.3.1] 
+- Added more detail assertion to integration tests.
+
 
 ## [0.2.11] - 2019-05-22
 - Dependency alex-ber-utils bumped up to 0.2.5.
