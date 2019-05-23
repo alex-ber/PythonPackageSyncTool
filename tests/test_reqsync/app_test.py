@@ -43,6 +43,8 @@ def validate_result(input_path, output_path, **kwargs):
     with open(input_path, 'rt') as f:
         in_requirements = [line.rstrip() for line in f.readlines()]
     for line in in_requirements:
+        if is_empty(line):
+            continue
         if line in new_lines:
             continue
         if _extract_pck(line) in removed_lines:
@@ -140,8 +142,26 @@ def test_run_unsorted_src_req(request, mocker):
         app.run(**d)
 
 
-def test_run_no_change(request, mocker):
+
+@pytest.mark.parametrize(
+     'source',
+
+    [
+        # ('requirements-src.txt'),                   #no_change (basic)
+        # ('requirements-src-middle_empty_lines.txt'),
+        # ('requirements-src-first_empty_line.txt'),
+        # ('requirements-src-last_empty_lines.txt'),
+        (None),                                     #_READ_BUFFER_SIZE / _WRITE_BUFFER_SIZE
+
+    ]
+)
+def test_run_no_change(request, mocker, source):
     logger.info(f'{request._pyfuncitem.name}()')
+
+    if source is None: #check correct usage of file input buffer and file output buffer.
+        mocker.patch.object(app, '_READ_BUFFER_SIZE', new=40)
+        mocker.patch.object(app, '_WRITE_BUFFER_SIZE', new=30)
+        source = 'requirements-src.txt'
 
     file_manager = ExitStack()
 
@@ -150,7 +170,7 @@ def test_run_no_change(request, mocker):
     exp_config_yml = file_manager.enter_context(
         path(pck, "config.yml"))
     exp_input = file_manager.enter_context(
-        path(pck, 'requirements-src.txt'))
+        path(pck, source))
     exp_output = file_manager.enter_context(
         path(pck, 'requirements-dest.txt'))
 
@@ -165,7 +185,6 @@ def test_run_no_change(request, mocker):
     app.run(**d)
 
     validate_result(input_path=exp_input, output_path=exp_output)
-
 
 
 

@@ -4,9 +4,6 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 ## [Unrelased]
-*   Test mutual exclusion
-
-*   Test & fix use of buffer
 
 
 ##
@@ -21,7 +18,9 @@ All notable changes to this project will be documented in this file.
 - Unit-test that check run with empty add and empty remvoe.
 - Unit-test that check removing single package.
 - Unit-test that check remove first package in requirements-src.
-- Unit-test that check remove last package in requirements-src. 
+- Unit-test that check remove last package in requirements-src.
+- Unit-test that check that empty lines in requirements-src are ignored.
+- Unit-test that check correct usage of file input buffer and file output buffer.
 
 
 ## [0.2.11] - 2019-05-22

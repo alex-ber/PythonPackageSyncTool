@@ -19,8 +19,9 @@ class TestFreeStyle(object):
                  'remove': ['datashape', 'menuinst', 'graphviz', 'entrypoints', 'numpy'],
                  'add':None,
                  'mutual_exclusion': True}
+        pck = '.'.join(['tests_data', __package__])
 
-        with open_text('tests_data.' + __package__, 'config.yml') as f:
+        with open_text(pck, 'config.yml') as f:
             d = yaml.safe_load(f)
         d = d['treeroot']
         dd = app_conf.parse_dict(d)
