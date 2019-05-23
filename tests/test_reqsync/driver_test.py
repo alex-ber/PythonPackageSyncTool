@@ -5,6 +5,33 @@ import pytest
 from alexber.reqsync import app
 from contextlib import ExitStack
 from importlib.resources import path
+from pathlib import Path
+import yaml
+
+def _assert_result(output_path, **kwargs):
+    with open(output_path, 'rt') as f:
+        out_requirements = [line.rstrip() for line in f.readlines()]
+
+    sorted_requirements = sorted(out_requirements, key=lambda line: line.split('==')[0].casefold())
+    pytest.assume(sorted_requirements==out_requirements)
+
+    new_lines = kwargs.get('new_lines', [])
+    for line in new_lines:
+        pytest.assume(line in sorted_requirements)
+
+    removed_lines = kwargs.get('removed_lines', [])
+    for line in removed_lines:
+        pytest.assume(line not in sorted_requirements)
+
+def _calc_removed_lines_lines(config_file):
+    full_path = Path(config_file).resolve()
+
+    with open(full_path) as f:
+        d = yaml.safe_load(f)
+    d = d['treeroot']
+    ret = d['remove']
+    return ret
+
 
 @pytest.mark.it
 def test_it_full_single_package(request, mocker):
@@ -28,12 +55,11 @@ def test_it_full_single_package(request, mocker):
         .split()
     app.main(argsv)
 
-    with open(exp_output, 'rt') as f:
-        out_requirements = [line.rstrip() for line in f.readlines()]
+    _assert_result(output_path=exp_output,
+                   new_lines=[exp_line],
+                   removed_lines=_calc_removed_lines_lines(exp_config_yml))
 
-    sorted_requirements = sorted(out_requirements, key=lambda line: line.split('==')[0].casefold())
-    pytest.assume(sorted_requirements==out_requirements)
-    pytest.assume(exp_line in sorted_requirements)
+
 
 @pytest.mark.it
 def test_it_full_single_package_exist(request, mocker):
@@ -86,12 +112,9 @@ def test_it_full_single_package_as_list(request, mocker):
         .split()
     app.main(argsv)
 
-    with open(exp_output, 'rt') as f:
-        out_requirements = [line.rstrip() for line in f.readlines()]
-
-    sorted_requirements = sorted(out_requirements, key=lambda line: line.split('==')[0].casefold())
-    pytest.assume(sorted_requirements==out_requirements)
-    pytest.assume(exp_line in sorted_requirements)
+    _assert_result(output_path=exp_output,
+                   new_lines=[exp_line],
+                   removed_lines=_calc_removed_lines_lines(exp_config_yml))
 
 
 @pytest.mark.it
@@ -143,12 +166,9 @@ def test_it_full_single_package_last(request, mocker):
 
     app.main(argsv)
 
-    with open(exp_output, 'rt') as f:
-        out_requirements = [line.rstrip() for line in f.readlines()]
-
-    sorted_requirements = sorted(out_requirements, key=lambda line: line.split('==')[0].casefold())
-    pytest.assume(sorted_requirements == out_requirements)
-    pytest.assume(exp_line in sorted_requirements)
+    _assert_result(output_path=exp_output,
+                   new_lines=[exp_line],
+                   removed_lines=_calc_removed_lines_lines(exp_config_yml))
 
 
 if __name__ == "__main__":
