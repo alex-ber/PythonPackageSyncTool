@@ -31,6 +31,8 @@ Add test
 ##
 ## [0.3.1] 
 - Added more detail assertion to integration tests.
+- Add unit-test for non-sorted requirements-src.
+ 
 
 
 ## [0.2.11] - 2019-05-22

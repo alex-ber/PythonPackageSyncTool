@@ -26,12 +26,14 @@ def test_it_full_single_package(request, mocker):
     logger.info(f'{request._pyfuncitem.name}()')
     file_manager = ExitStack()
 
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
     exp_config_yml = file_manager.enter_context(
-        path('tests_data.' + __package__+'.it',  "config.yml"))
+        path(pck,  "config.yml"))
     exp_input = file_manager.enter_context(
-        path('tests_data.' + __package__+'.it', 'requirements-src.txt'))
+        path(pck, 'requirements-src.txt'))
     exp_output= file_manager.enter_context(
-        path('tests_data.' + __package__+'.it', 'requirements-dest.txt'))
+        path(pck, 'requirements-dest.txt'))
     exp_package = 'lxml'
     exp_version = '4.3.3'
     exp_line = f'{exp_package}=={exp_version}'
@@ -57,12 +59,14 @@ def test_it_full_single_package_exist(request, mocker):
 
     file_manager = ExitStack()
 
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
     exp_config_yml = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', "config.yml"))
+        path(pck, "config.yml"))
     exp_input = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-src.txt'))
+        path(pck, 'requirements-src.txt'))
     exp_output = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-dest.txt'))
+        path(pck, 'requirements-dest.txt'))
     exp_package = 'numpy'
     exp_version = '1.16.2'
 
@@ -85,12 +89,14 @@ def test_it_full_single_package_as_list(request, mocker):
 
     file_manager = ExitStack()
 
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
     exp_config_yml = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', "config.yml"))
+        path(pck, "config.yml"))
     exp_input = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-src.txt'))
+        path(pck, 'requirements-src.txt'))
     exp_output = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-dest.txt'))
+        path(pck, 'requirements-dest.txt'))
     exp_package = 'lxml'
     exp_version = '4.3.3'
     exp_line = f'{exp_package}=={exp_version}'
@@ -114,13 +120,14 @@ def test_it_full_single_package_exist_as_list(request, mocker):
     logger.info(f'{request._pyfuncitem.name}()')
 
     file_manager = ExitStack()
+    pck = '.'.join(['tests_data', __package__, 'it'])
 
     exp_config_yml = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', "config.yml"))
+        path(pck, "config.yml"))
     exp_input = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-src.txt'))
+        path(pck, 'requirements-src.txt'))
     exp_output = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-dest.txt'))
+        path(pck, 'requirements-dest.txt'))
     exp_package = 'numpy'
     exp_version = '1.16.2'
 
@@ -140,12 +147,14 @@ def test_it_full_single_package_last(request, mocker):
 
     file_manager = ExitStack()
 
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
     exp_config_yml = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', "config.yml"))
+        path(pck, "config.yml"))
     exp_input = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-src.txt'))
+        path(pck, 'requirements-src.txt'))
     exp_output = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-dest.txt'))
+        path(pck, 'requirements-dest.txt'))
     exp_package = 'zope.interface'
     exp_version = '4.6.0'
     exp_line = f'{exp_package}=={exp_version}'

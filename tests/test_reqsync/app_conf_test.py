@@ -71,7 +71,9 @@ class TestFreeStyle(object):
 
         parser = ConfigParser()
 
-        with path('tests_data.' + __package__, 'config.ini') as full_path:
+        pck = '.'.join(['tests_data', __package__])
+
+        with path(pck, 'config.ini') as full_path:
             parser.read(full_path)
         dd = parser.as_dict()
         dd= dd['treeroot']
@@ -88,8 +90,9 @@ class TestFreeStyle(object):
                  'remove': ['datashape', 'menuinst', 'graphviz', 'entrypoints', 'numpy'],
                  'add': None,
                  'mutual_exclusion': True}
+        pck = '.'.join(['tests_data', __package__])
 
-        with path('tests_data.' + __package__, 'config.yml') as config_file:
+        with path(pck, 'config.yml') as config_file:
             argsv = f'--config_file={config_file} ' \
                 '--destination=requirements-newdest.txt ' \
             .split()
@@ -106,8 +109,10 @@ def test_parse_config(request, mocker):
     mocker.spy(app_conf, 'parse_yml')
     file_manager = ExitStack()
 
+    pck = '.'.join(['tests_data', __package__])
+
     exp_config_yml= file_manager.enter_context(
-        path('tests_data.' + __package__, 'config.yml'))
+        path(pck, 'config.yml'))
 
     argsv = f'--config_file={exp_config_yml} ' \
         '--add=numpy:1.16.2 ' \
@@ -120,8 +125,9 @@ def test_parse_config(request, mocker):
     params, _ = app_conf.parse_sys_args()
     # params return from parse_sys_args() contains exp_config_yml
 
+    pck = '.'.join(['tests_data', __package__])
     actual_config_file = file_manager.enter_context(
-        path('tests_data.' + __package__, params.config_file))
+        path(pck, params.config_file))
 
     pytest.assume(exp_config_yml == actual_config_file)
 

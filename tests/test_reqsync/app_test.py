@@ -91,12 +91,14 @@ def test_run(request, mocker):
 
     file_manager = ExitStack()
 
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
     exp_config_yml = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', "config.yml"))
+        path(pck, "config.yml"))
     exp_input = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-src.txt'))
+        path(pck, 'requirements-src.txt'))
     exp_output = file_manager.enter_context(
-        path('tests_data.' + __package__ + '.it', 'requirements-dest.txt'))
+        path(pck, 'requirements-dest.txt'))
     exp_removes = ['datashape','menuinst']
 
 
@@ -110,6 +112,36 @@ def test_run(request, mocker):
     app.run(**d)
 
     validate_result(input_path=exp_input, output_path=exp_output, removed_lines=exp_removes)
+
+def test_unsorted_src_req(request, mocker):
+    logger.info(f'{request._pyfuncitem.name}()')
+
+    file_manager = ExitStack()
+
+    pck = '.'.join(['tests_data', __package__, 'unsorted_src_req'])
+
+    exp_config_yml = file_manager.enter_context(
+        path(pck, "config.yml"))
+    exp_input = file_manager.enter_context(
+        path(pck, 'requirements-src.txt'))
+    exp_output = file_manager.enter_context(
+        path(pck, 'requirements-dest.txt'))
+    exp_removes = ['datashape','menuinst']
+
+
+    d = {'config_file': str(exp_config_yml),
+         'source': str(exp_input),
+        'destination': str(exp_output),
+        'remove':exp_removes,
+        'add': None
+             }
+
+    with pytest.raises(ValueError, match='xpected to be sorted'):
+        app.run(**d)
+
+
+
+
 
 
 
