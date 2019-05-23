@@ -4,10 +4,6 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 ## [Unrelased]
-@ Non-sorted requirements-src
-@ Empty add and remove
-
-
 Add test
 
 + --add=zzzzzzzzzzzzzzzzzz,
@@ -32,6 +28,7 @@ Add test
 ## [0.3.1] 
 - Added more detail assertion to integration tests.
 - Add unit-test for non-sorted requirements-src.
+- Add unit-test that check run with empty add and empty remvoe.
  
 
 

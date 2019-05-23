@@ -113,7 +113,7 @@ def test_run(request, mocker):
 
     validate_result(input_path=exp_input, output_path=exp_output, removed_lines=exp_removes)
 
-def test_unsorted_src_req(request, mocker):
+def test_run_unsorted_src_req(request, mocker):
     logger.info(f'{request._pyfuncitem.name}()')
 
     file_manager = ExitStack()
@@ -140,7 +140,31 @@ def test_unsorted_src_req(request, mocker):
         app.run(**d)
 
 
+def test_run_no_change(request, mocker):
+    logger.info(f'{request._pyfuncitem.name}()')
 
+    file_manager = ExitStack()
+
+    pck = '.'.join(['tests_data', __package__, 'it'])
+
+    exp_config_yml = file_manager.enter_context(
+        path(pck, "config.yml"))
+    exp_input = file_manager.enter_context(
+        path(pck, 'requirements-src.txt'))
+    exp_output = file_manager.enter_context(
+        path(pck, 'requirements-dest.txt'))
+
+
+    d = {'config_file': str(exp_config_yml),
+        'source': str(exp_input),
+        'destination': str(exp_output),
+        'remove':None,
+        'add': None
+             }
+
+    app.run(**d)
+
+    validate_result(input_path=exp_input, output_path=exp_output)
 
 
 
