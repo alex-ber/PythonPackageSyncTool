@@ -11,22 +11,29 @@ All notable changes to this project will be documented in this file.
 
 ##
 ## [0.3.1] 
-- Added more detail assertion to integration tests.
-- Add unit-test for non-sorted requirements-src.
-- Add unit-test that check run with empty add and empty remvoe.
-- Bug fix (and unit-test added) that check adding packages before all existing one.
-- Add unit-test that check removing single package.
-- Add unit-test that check remove first package in requirements-src.
-- Add unit-test that check remove last package in requirements-src. 
+### Changed
+- Bug fix: adding packages before all existing one works incorrect.
+
+### Added
+- Unit test for bug fix that check adding packages before all existing one.
+- More detail assertion to integration tests.
+- Unit-test for non-sorted requirements-src.
+- Unit-test that check run with empty add and empty remvoe.
+- Unit-test that check removing single package.
+- Unit-test that check remove first package in requirements-src.
+- Unit-test that check remove last package in requirements-src. 
 
 
 ## [0.2.11] - 2019-05-22
+### Changed
 - Dependency alex-ber-utils bumped up to 0.2.5.
 
 ## [0.2.8] - 2019-05-22
+### Changed
 - Dependency alex-ber-utils bumped up to 0.2.4.
 
 ## [0.2.6] - 2019-05-22
+### Changed
 - Dependency alex-ber-utils bumped up to 0.2.3.
 
 ## [0.2.5] - 2019-05-22
