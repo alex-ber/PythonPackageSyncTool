@@ -5,11 +5,49 @@ import pytest
 
 import alexber.reqsync.app as app
 from alexber.reqsync.app import conf as app_conf
+from contextlib import ExitStack
 
 _real_parse_config = app_conf.parse_config
+from importlib.resources import path
+from alexber.utils.parsers import is_empty
+
+def _extract_pck(element):
+    if element is None or is_empty(element):
+        return ''
+    elif '==' not in element:
+        pck = element
+    else:
+        pck, _ = element.split('==')
+    return pck
 
 
+def validate_result(input_path, output_path, **kwargs):
+    assert not is_empty(input_path)
+    assert not is_empty(output_path)
 
+    with open(output_path, 'rt') as f:
+        out_requirements = [line.rstrip() for line in f.readlines()]
+
+    sorted_requirements = sorted(out_requirements, key=lambda line: line.split('==')[0].casefold())
+    pytest.assume(sorted_requirements==out_requirements)
+
+    new_lines = kwargs.get('new_lines', [])
+    for line in new_lines:
+        pytest.assume(line in sorted_requirements)
+
+    removed_lines = kwargs.get('removed_lines', [])
+    for line in removed_lines:
+        pytest.assume(line not in sorted_requirements)
+
+
+    with open(input_path, 'rt') as f:
+        in_requirements = [line.rstrip() for line in f.readlines()]
+    for line in in_requirements:
+        if line in new_lines:
+            continue
+        if _extract_pck(line) in removed_lines:
+            continue
+        pytest.assume(line in sorted_requirements)
 
 
 def test_main(request, mocker):
@@ -51,32 +89,28 @@ def test_main(request, mocker):
 def test_run(request, mocker):
     logger.info(f'{request._pyfuncitem.name}()')
 
-    d = {'source': 'requirements-src.txt',
-             'destination': 'requirements-dest.txt',
-             'remove':['datashape','menuinst'],
-             'add': None
+    file_manager = ExitStack()
+
+    exp_config_yml = file_manager.enter_context(
+        path('tests_data.' + __package__ + '.it', "config.yml"))
+    exp_input = file_manager.enter_context(
+        path('tests_data.' + __package__ + '.it', 'requirements-src.txt'))
+    exp_output = file_manager.enter_context(
+        path('tests_data.' + __package__ + '.it', 'requirements-dest.txt'))
+    exp_removes = ['datashape','menuinst']
+
+
+    d = {'config_file': str(exp_config_yml),
+        'source': str(exp_input),
+        'destination': str(exp_output),
+        'remove':exp_removes,
+        'add': None
              }
 
     app.run(**d)
 
-#
-# @pytest.mark.it
-# def test_play_it(request, mocker):
-#     logger.info(f'{request._pyfuncitem.name}()')
-#
-#     mocker.patch('alexber.rpsgame.engine', new=engine_1_0)
-#     mock_logging = mocker.patch(f'alexber.rpsgame.engine_1_0.logging', autospec=True, spec_set=True)
-#     reset_event_listeners()
-#     mocker.patch('alexber.rpsgame.engine_1_0.uuid1mc', new=lambda: '1')
-#
-#     args = '--playera.cls=alexber.rpsgame.players.ConstantPlayer --playerb.cls=alexber.rpsgame.players.ConstantPlayer'\
-#         .split()
-#     rpsgame_app_main(args)
-#
-#     mock_result = mock_logging.info
-#
-#     result = _parse_result(mock_result, app_conf.DEFAULT_NAME_PLAYER_A, app_conf.DEFAULT_NAME_PLAYER_B)
-#     pytest.assume(ResultEnum.DRAW == result)
+    validate_result(input_path=exp_input, output_path=exp_output, removed_lines=exp_removes)
+
 
 
 if __name__ == "__main__":
