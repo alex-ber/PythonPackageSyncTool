@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 ## [Unrelased]
 
 
+## [0.4.1] - 2019-05-30
+### Changed
+- Bug fix: adding packages before all existing one works incorrect.
+- Removing alexber.reqsync.utils.parsers. It was fully duplicated by alexber.utils.parsers. 
+So, all usage was change to the latest (part of alex-ber-utils).
+
 ##
 ## [0.3.1] - 2019-05-23
 ### Changed

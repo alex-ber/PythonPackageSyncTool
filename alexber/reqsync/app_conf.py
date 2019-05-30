@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from alexber.reqsync.utils.parsers import ArgumentParser, parse_boolean
+from alexber.utils.parsers import ArgumentParser, parse_boolean
 from pathlib import Path
 from collections import OrderedDict
 import yaml

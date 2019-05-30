@@ -121,7 +121,7 @@ python3 -m pip install -U https://github.com/alex-ber/PythonPackageSyncTool/arch
 Optionally installing tests requirements.
 
 ```bash
-python3 -m pip install -U https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip#egg=alex-ber-utils[tests]
+python3 -m pip install -U https://github.com/alex-ber/PythonPackageSyncTool/archive/master.zip#egg=python-package-sync-tool[tests]
 ```
 
 Or explicitly:

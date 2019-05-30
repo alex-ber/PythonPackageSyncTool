@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 from alexber.reqsync import app_conf
-from alexber.reqsync.utils.parsers import ConfigParser
+from alexber.utils.parsers import ConfigParser
 
 import yaml
 from importlib.resources import open_text, path

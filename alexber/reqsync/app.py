@@ -3,7 +3,7 @@ import logging.config
 
 from pathlib import Path
 import alexber.reqsync.app_conf as conf
-from alexber.reqsync.utils import is_empty
+from alexber.utils.parsers import is_empty
 
 from collections import deque
 
@@ -11,7 +11,7 @@ _READ_BUFFER_SIZE = 2 ** 16
 _WRITE_BUFFER_SIZE = 2 ** 16
 
 def _getSourceGen(filename, more_pck):
-    yield None  # gracefully handled adding package before all existing ones
+    #yield None  # gracefully handled adding package before all existing ones
 
     buffersize = _READ_BUFFER_SIZE
     with open(filename, 'rt') as f:
@@ -90,7 +90,11 @@ def _process_line(prev_line, cur_line, **kwargs):
         add_pck = _extract_pck(add_line)
 
         low_add_pck = add_pck.casefold()
-        if is_empty(low_cur_pck) or (low_prev_pck < low_add_pck <= low_cur_pck):
+        if is_empty(low_prev_pck) and (low_prev_pck < low_add_pck <= low_cur_pck): #adding new package at the head of file
+            ret.append(add_line)
+            is_append_curr_line = True
+            add_pckgs.popleft()
+        elif low_prev_pck < low_add_pck <= low_cur_pck:
             ret.append(add_line)
             is_append_curr_line = False
             add_pckgs.popleft()
