@@ -23,6 +23,7 @@ treeroot:
     - sasl
     - scipy
     - tables
+    - terminado
     - tornado
     - xlwings
   add:
@@ -33,6 +34,7 @@ treeroot:
 #    - sasl==0.2.1
 #    - scipy==1.2.1
 #    - tables==3.4.4
+#    - terminado==0.8.2
 #    - tornado==5.1.1
 #    - Twisted==19.2.0
 
