@@ -15,6 +15,7 @@ treeroot:
     - jupyter-core
     - menuinst
     - mkl-fft
+    - navigator-updater
     - numpy
     - pyyaml
     - pywin32

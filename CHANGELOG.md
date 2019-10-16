@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unrelased]
 
+## [0.4.2] - 2019-10-16
+### Changed
+- navigator-updater added to config.yml/
 
 ## [0.4.1] - 2019-05-30
 ### Changed

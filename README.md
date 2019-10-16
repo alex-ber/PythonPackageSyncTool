@@ -106,7 +106,6 @@ You can supplied multiply packages by using comma:
 ```bash
 python3 -m alexber.reqsync.data --add=some_new_package:1.0.0,another_new_package:2.0.0
 ```
-
 or if you're using script (driver.py) go the directory with the script and type
 ```bash
 ./driver.py --add=some_new_package:1.0.0,another_new_package:2.0.0
