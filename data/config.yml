@@ -1,9 +1,12 @@
+
 treeroot:
   source: requirements-src.txt
   destination: requirements-dest.txt
   mutual_exclusion: True
   remove:
+    - anaconda-navigator
     - awscli
+    - conda-build
     - datashape
     - entrypoints
     - google-colab
@@ -38,4 +41,5 @@ treeroot:
 #    - terminado==0.8.2
 #    - tornado==5.1.1
 #    - Twisted==19.2.0
+
 
