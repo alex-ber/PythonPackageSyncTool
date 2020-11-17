@@ -138,6 +138,35 @@ python3 -m pip install . # only installs "required"
 ```bash
 python3 -m pip install .[test] # installs dependencies for tests
 ```
+
+### Using Docker
+`alexberkovich/AlexBerUtils:latest`  contains all `AlexBerUtils` dependencies.
+This Dockerfile is very simple, you can take relevant part for you and put them into your Dockerfile.
+
+##
+Alternatively, you can use it as base Docker image for your project and add/upgrade 
+another dependencies as you need.
+
+For example:
+
+```Dockerfile
+FROM alexberkovich/python_package_sync_tool:latest
+
+COPY requirements.txt etc/requirements.txt
+COPY requirements-tests.txt etc/requirements-tests.txt
+
+RUN set -ex && \
+    #latest pip,setuptools,wheel
+    pip install --upgrade pip setuptools wheel && \
+    pip install -r etc/requirements.txt  && \
+    pip install -r etc/requirements-tests.txt 
+
+CMD ["/bin/sh"]
+#CMD tail -f /dev/null
+```
+
+where `requirements.txt` is requirements for your project.
+
 ##
 
 From the directory with setup.py

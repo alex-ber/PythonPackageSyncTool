@@ -4,6 +4,7 @@ import logging.config
 from pathlib import Path
 import alexber.reqsync.app_conf as conf
 from alexber.utils.parsers import is_empty
+from alexber.utils.mains import fixabscwd
 
 from collections import deque
 
@@ -260,6 +261,8 @@ if __name__ == '__main__':
     logging.config.dictConfig(_config["log_config"])
     del _config
     logger = logging.getLogger(__name__)
+
+
     main()
 
 

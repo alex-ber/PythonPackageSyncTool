@@ -3,7 +3,44 @@ All notable changes to this project will be documented in this file.
 
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
-## [Unrelased]
+## [0.5.2a0] - 2020-11-17
+### Breaking change
+- format of config.yml file changed. **TODO: change documentation**
+- `alexber.reqsync.utils.app_conf` removed.
+
+### Changed
+- Pytest version updated (also some tests dependecies changed)
+- alex-ber-utils dependency updated.
+- config.yml format changed to one that alex-ber-utils support for a long time.
+
+See documentation here
+
+My `parser` module [https://medium.com/analytics-vidhya/my-parser-module-429ed1457718]
+
+My `ymlparsers` module [https://medium.com/analytics-vidhya/my-ymlparsers-module-88221edf16a6]
+
+My major `init_app_conf` module [https://medium.com/analytics-vidhya/my-major-init-app-conf-module-1a5d9fb3998c]
+
+- Logger is enabled, relative path is resolved correctly, and other little tweaks, see
+
+Integrating Python’s logging and warnings packages 
+[https://medium.com/analytics-vidhya/integrating-pythons-logging-and-warnings-packages-7ffd6f65e02d]
+
+Making relative path to file to work 
+[https://alex-ber.medium.com/making-relative-path-to-file-to-work-d5d0f1da67bf]
+ 
+
+
+### Added
+- Optional Docker support added. **TODO: change documentation** 
+
+
+## [0.5.1] - 2020-10-25
+### Added
+- Support for Python 3.8
+
+### Changed
+- 
 
 ## [0.4.3] - 2019-10-17
 ### Changed
