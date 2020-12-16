@@ -1,11 +1,11 @@
-FROM alexberkovich/alpine-anaconda3:0.0.5
+FROM alexberkovich/alpine-anaconda3:0.1.1
 
 COPY requirements.txt etc/requirements.txt
 COPY requirements-tests.txt etc/requirements-tests.txt
 
 RUN set -ex && \
     #latest pip,setuptools,wheel
-    pip install --upgrade pip==20.2.4 setuptools==50.3.2 wheel==0.35.1 && \
+    pip install --upgrade pip==20.3.1 setuptools==51.0.0 wheel==0.36.1 && \
     pip install -r etc/requirements.txt  && \
     pip install -r etc/requirements-tests.txt
 

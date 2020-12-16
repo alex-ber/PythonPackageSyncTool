@@ -4,7 +4,7 @@ import os
 
 
 #VERSION should be defined before importing UploadCommand
-VERSION = '0.5.2a0'
+VERSION = '0.5.2rc1'
 from alexber.utils import UploadCommand
 NAME = 'python_package_sync_tool'
 SHORT_NAME = 'reqsync'
@@ -20,7 +20,7 @@ def get_content(filename):
         content = f.read().splitlines()
     return content
 
-install_requires = get_content('requirements.txt')
+install_requires = get_content('req.txt')
 tests_require = get_content('requirements-tests.txt')
 
 extras = {

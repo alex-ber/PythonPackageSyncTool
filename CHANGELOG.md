@@ -3,14 +3,18 @@ All notable changes to this project will be documented in this file.
 
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
+
+## [0.5.2rc1] - 2020-12-16
+ 
+
 ## [0.5.2a0] - 2020-11-17
-### Breaking change
-- format of config.yml file changed. **TODO: change documentation**
+### Removed
 - `alexber.reqsync.utils.app_conf` removed.
 
 ### Changed
-- Pytest version updated (also some tests dependecies changed)
+- Pytest version updated (also some tests dependencies changed)
 - alex-ber-utils dependency updated.
+- Logger information was moved from `app.py` to `config.yml` file.
 - config.yml format changed to one that alex-ber-utils support for a long time.
 
 See documentation here

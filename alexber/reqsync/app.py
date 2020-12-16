@@ -1,15 +1,30 @@
 import logging.config
 
-
+import io
 from pathlib import Path
-import alexber.reqsync.app_conf as conf
+from argparse import ArgumentParser
+
+#import alexber.reqsync.app_conf as conf
 from alexber.utils.parsers import is_empty
+import alexber.utils.ymlparsers as ymlparsers
 from alexber.utils.mains import fixabscwd
+import alexber.utils.init_app_conf as init_app_conf
+from alexber.utils.init_app_conf import AppConfParser
 
 from collections import deque
 
 _READ_BUFFER_SIZE = 2 ** 16
 _WRITE_BUFFER_SIZE = 2 ** 16
+
+class conf(init_app_conf.conf):
+    LOG_KEY = 'log'
+    APP_KEY = 'treeroot'
+    SOURCE_KEY = 'source'
+    DEST_KEY= 'destination'
+    MUTUAL_EXCLUSION_KEY = 'mutual_exclusion'
+    RM_KEY = 'remove'
+    ADD_KEY = 'add'
+
 
 def _getSourceGen(filename, more_pck):
     #yield None  # gracefully handled adding package before all existing ones
@@ -150,29 +165,30 @@ def run(**kwargs):
     JSON/YML, etc. can be easiliy handled also.
     """
 
-    #filter out unrelated params
-    kwargs = conf.parse_dict(kwargs)
+    app_d = kwargs[conf.APP_KEY]
 
-    src_f = kwargs.get(conf.SOURCE_KEY, None)
+    logger.debug(f"app is {ymlparsers.as_str(app_d)}")
+
+    src_f = app_d.get(conf.SOURCE_KEY, None)
     if src_f is None:
         raise ValueError(f'{conf.SOURCE_KEY} key should be defined')
 
-    dest_f = kwargs.get(conf.DEST_KEY, None)
+    dest_f = app_d.get(conf.DEST_KEY, None)
     if dest_f is None:
         raise ValueError(f'{conf.DEST_KEY} key should be defined')
 
-    add_pckgs = kwargs.pop(conf.ADD_KEY, None)
+    add_pckgs = app_d.pop(conf.ADD_KEY, None)
     # Limitation: in-memory sorted
     add_pckgs = _create_deque(add_pckgs)
 
-    rm_pckgs = kwargs.pop(conf.RM_KEY, None)
+    rm_pckgs = app_d.pop(conf.RM_KEY, None)
     # Limitation: in-memory sorted
     rm_pckgs = _create_deque(rm_pckgs)
 
-    kwargs[conf.ADD_KEY] = add_pckgs
-    kwargs[conf.RM_KEY] = rm_pckgs
+    app_d[conf.ADD_KEY] = add_pckgs
+    app_d[conf.RM_KEY] = rm_pckgs
 
-    is_mutual_exclusion = kwargs.pop(conf.MUTUAL_EXCLUSION_KEY, True)
+    is_mutual_exclusion = app_d.pop(conf.MUTUAL_EXCLUSION_KEY, True)
     if is_mutual_exclusion:
         _validate_mutual_exclusion(add_pckgs, rm_pckgs)
 
@@ -187,7 +203,7 @@ def run(**kwargs):
     with open(full_dest_path, 'wt') as f:
         for cur_line in sourceGen:
             lines = _process_line(prev_line, cur_line,
-                                  **kwargs)
+                                  **app_d)
             if lines is not None:
                 lines_buffer.extend(lines)
 
@@ -203,6 +219,125 @@ def run(**kwargs):
 
 
 
+def _log_config(**kwargs):
+    log_d = kwargs.get(conf.GENERAL_KEY, {}).get(conf.LOG_KEY, {})
+    if is_empty(log_d):
+        log_d = _config["log_config"]
+
+    logging.config.dictConfig(log_d)
+    global logger
+    logger = logging.getLogger(__name__)
+
+    # logger.debug(f"{pprint.pprint(dd)}") #sort_dicts=False is available in Python 3.8
+    logger.debug(f"Parsed log configurations is {ymlparsers.as_str(kwargs)}")
+
+class _PythonPackageSyncToolConfParser(AppConfParser):
+    def mask_value(self, value):
+        def _is_path(w):
+            p = Path(str(w))
+            ret = p.drive!=''
+            return ret
+
+        def _fix(w):
+            if _is_path(w):
+                return w
+
+            try:
+                ret = w.replace(":", "==") \
+                    if self.implicit_convert \
+                    else w
+                return ret
+            except AttributeError:
+                ret = w
+            return ret
+
+        ret = super().mask_value(value)
+        ret = _fix(ret)
+        return ret
+
+    def _parse_white_list(self, default_d):
+        white_list = [conf.GENERAL_KEY, conf.APP_KEY]
+        return white_list
+
+_ADAPT_KEYS =('source', 'destination', 'mutual_exclusion', 'remove', 'add')
+_ADAPT_LIST_PREFIX = f'{conf.GENERAL_KEY}.{conf.LIST_ENSURE_KEY}'
+
+def _adapt_arg_split(arg):
+    if arg is None:
+        return None, arg
+    if not arg.startswith('--'):
+        return None, arg
+
+    ind = arg.find('=')
+
+    if ind<0:
+        key = arg
+        value = ''
+    else:
+        key = arg[2:ind]
+        value = arg[ind+1:]
+    return key, value
+
+def _adapt_arg(arg):
+    key, value = _adapt_arg_split(arg)
+    if key is None:
+        return value
+
+    ret = arg
+    if key in _ADAPT_KEYS:
+        ret = f'--{conf.APP_KEY}.{key}={value}'
+    return ret
+
+def _adapt_list_ensure(args):
+    list_ensure_key = f'{conf.GENERAL_KEY}.{conf.LIST_ENSURE_KEY}'
+    add_key = f'{conf.APP_KEY}.{conf.ADD_KEY}'
+    rm_key =  f'{conf.APP_KEY}.{conf.RM_KEY}'
+    buf = io.StringIO()
+    buf.write(f'--{list_ensure_key}=')
+    is_used = False
+
+    for arg in args:
+        key, value = _adapt_arg_split(arg)
+        if list_ensure_key==key:
+            return args
+        if add_key==key :
+            buf.write(f'{conf.APP_KEY}.{conf.ADD_KEY},')
+            is_used = True
+        elif rm_key==key :
+            buf.write(f'{conf.APP_KEY}.{conf.RM_KEY},')
+            is_used = True
+
+    if is_used:
+        args.append(buf.getvalue()[:-1])    #truncate last comma
+    return args
+
+
+def _adapt_conf(args=None):
+    """
+    This function is adapter layer for backproring of init_app_conf.
+
+    :return:
+    """
+
+    # ymlparsers.initConfig()
+    # init_app_conf.initConfig()
+
+    argumentParser = ArgumentParser()
+    #allow to use config.file
+    argumentParser.add_argument("--config_file", nargs='?', dest='config_file', default='config.yml',
+                                const='config.yml')
+
+    init_app_conf.initConfig(default_parser_cls=_PythonPackageSyncToolConfParser)
+
+    # allow to not to specify treesort
+    args = [_adapt_arg(arg) for arg in args]
+    # allow to not to specify general.listEnsure
+    args = _adapt_list_ensure(args)
+    dd = init_app_conf.parse_config(argumentParser=argumentParser, args=args)
+
+
+    return dd
+
 
 
 
@@ -211,9 +346,18 @@ def main(args=None):
     main method
     :param args: if not None, suppresses sys.args
     """
-    dd = conf.parse_config(args)
-    run(**dd)
+    logging.basicConfig(format='%(asctime)-15s %(levelname)s [%(name)s.%(funcName)s] %(message)s',
+                        level=logging.INFO)
+    logging.captureWarnings(True)
 
+    fixabscwd()
+
+    dd = _adapt_conf(args)
+
+    _log_config(**dd)
+    del dd[conf.GENERAL_KEY]
+
+    run(**dd)
 
 #see https://terryoy.github.io/2016/05/short-ref-python-logging.html
 _config = {
@@ -257,12 +401,6 @@ _config = {
         },
     }
 
-if __name__ == '__main__':
-    logging.config.dictConfig(_config["log_config"])
-    del _config
-    logger = logging.getLogger(__name__)
 
-
+if __name__ == "__main__":
     main()
-
-

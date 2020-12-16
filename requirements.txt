@@ -1,2 +1,5 @@
 alex-ber-utils==0.6.2
 PyYAML==5.1
+HiYaPyCo==0.4.16
+Jinja2==2.11.2
+MarkupSafe==1.1.1

@@ -1,8 +1,8 @@
 import logging
 logger = logging.getLogger(__name__)
-
 import pytest
 from alexber.reqsync import app
+from alexber.reqsync.app import logging as app_logging
 from contextlib import ExitStack
 from importlib.resources import path
 from pathlib import Path
@@ -21,9 +21,17 @@ def _calc_removed_lines_lines(config_file):
     return ret
 
 
+
+@pytest.fixture
+def skip_app_logging_reconfiguration(request, mocker):
+    mocker.patch.object(app_logging.config, 'dictConfig', autospec=True, spec_set=True)
+
+
+
 @pytest.mark.it
-def test_it_full_single_package(request, mocker):
+def test_it_full_single_package(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
+
     file_manager = ExitStack()
 
     pck = '.'.join(['tests_data', __package__, 'it'])
@@ -54,7 +62,7 @@ def test_it_full_single_package(request, mocker):
 
 
 @pytest.mark.it
-def test_it_full_single_package_exist(request, mocker):
+def test_it_full_single_package_exist(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
 
     file_manager = ExitStack()
@@ -84,7 +92,7 @@ def test_it_full_single_package_exist(request, mocker):
 
 
 @pytest.mark.it
-def test_it_full_single_package_as_list(request, mocker):
+def test_it_full_single_package_as_list(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
 
     file_manager = ExitStack()
@@ -116,7 +124,7 @@ def test_it_full_single_package_as_list(request, mocker):
 
 
 @pytest.mark.it
-def test_it_full_single_package_exist_as_list(request, mocker):
+def test_it_full_single_package_exist_as_list(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
 
     file_manager = ExitStack()
@@ -142,7 +150,7 @@ def test_it_full_single_package_exist_as_list(request, mocker):
 
 
 @pytest.mark.it
-def test_it_full_single_package_last(request, mocker):
+def test_it_full_single_package_last(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
 
     file_manager = ExitStack()
@@ -175,7 +183,7 @@ def test_it_full_single_package_last(request, mocker):
 
 
 @pytest.mark.it
-def test_it_full_single_package_first(request, mocker):
+def test_it_full_single_package_first(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
 
     file_manager = ExitStack()
@@ -208,7 +216,7 @@ def test_it_full_single_package_first(request, mocker):
 
 
 @pytest.mark.it
-def test_it_remove_single_package(request, mocker):
+def test_it_remove_single_package(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
     file_manager = ExitStack()
 
@@ -238,7 +246,7 @@ def test_it_remove_single_package(request, mocker):
 
 
 @pytest.mark.it
-def test_it_remove_single_package_first(request, mocker):
+def test_it_remove_single_package_first(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
     file_manager = ExitStack()
 
@@ -267,7 +275,7 @@ def test_it_remove_single_package_first(request, mocker):
         removed_lines=[remove_package])
 
 @pytest.mark.it
-def test_it_remove_single_package_last(request, mocker):
+def test_it_remove_single_package_last(request, mocker, skip_app_logging_reconfiguration):
     logger.info(f'{request._pyfuncitem.name}()')
     file_manager = ExitStack()
 
@@ -298,3 +306,6 @@ def test_it_remove_single_package_last(request, mocker):
 
 if __name__ == "__main__":
     pytest.main([__file__])
+
+
+

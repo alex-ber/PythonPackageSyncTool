@@ -140,7 +140,7 @@ python3 -m pip install .[test] # installs dependencies for tests
 ```
 
 ### Using Docker
-`alexberkovich/AlexBerUtils:latest`  contains all `AlexBerUtils` dependencies.
+`alexberkovich/python_package_sync_tool:latest`  contains all `python_package_sync_tool` dependencies.
 This Dockerfile is very simple, you can take relevant part for you and put them into your Dockerfile.
 
 ##
@@ -153,13 +153,12 @@ For example:
 FROM alexberkovich/python_package_sync_tool:latest
 
 COPY requirements.txt etc/requirements.txt
-COPY requirements-tests.txt etc/requirements-tests.txt
 
 RUN set -ex && \
     #latest pip,setuptools,wheel
     pip install --upgrade pip setuptools wheel && \
-    pip install -r etc/requirements.txt  && \
-    pip install -r etc/requirements-tests.txt 
+    pip install python_package_sync_tool 
+    pip install -r etc/requirements.txt 
 
 CMD ["/bin/sh"]
 #CMD tail -f /dev/null
