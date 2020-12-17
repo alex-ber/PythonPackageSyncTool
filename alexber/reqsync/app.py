@@ -1,6 +1,7 @@
 import logging.config
 
 import io
+import sys as _sys
 from pathlib import Path
 from argparse import ArgumentParser
 
@@ -329,11 +330,18 @@ def _adapt_conf(args=None):
 
     init_app_conf.initConfig(default_parser_cls=_PythonPackageSyncToolConfParser)
 
-    if args is not None:
-        # allow to not to specify treesort
-        args = [_adapt_arg(arg) for arg in args]
-        # allow to not to specify general.listEnsure
-        args = _adapt_list_ensure(args)
+    if args is None:
+        # args default to the system args
+        args = _sys.argv[1:]
+    else:
+        # make sure that args are mutable
+        args = list(args)
+
+    # allow to not to specify treesort
+    args = [_adapt_arg(arg) for arg in args]
+    # allow to not to specify general.listEnsure
+    args = _adapt_list_ensure(args)
+
     dd = init_app_conf.parse_config(argumentParser=argumentParser, args=args)
 
 

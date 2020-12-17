@@ -1,4 +1,4 @@
-FROM alexberkovich/alpine-anaconda3:0.1.1
+FROM alexberkovich/alpine-anaconda3:0.2.0
 
 COPY requirements.txt etc/requirements.txt
 COPY requirements-tests.txt etc/requirements-tests.txt

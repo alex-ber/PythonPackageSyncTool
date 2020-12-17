@@ -5,13 +5,8 @@ All notable changes to this project will be documented in this file.
 
 
 
-## [0.5.2rc2] - 2020-12-16
- **TODO: change documentation** (see below)
 
-## [0.5.2rc1] - 2020-12-16
- 
-
-## [0.5.2a0] - 2020-11-17
+## [0.5.2] - 2020-12-17
 ### Removed
 - `alexber.reqsync.utils.app_conf` removed.
 
@@ -19,15 +14,20 @@ All notable changes to this project will be documented in this file.
 - Pytest version updated (also some tests dependencies changed)
 - alex-ber-utils dependency updated.
 - Logger information was moved from `app.py` to `config.yml` file.
-- config.yml format changed to one that alex-ber-utils support for a long time.
+- `config.yml` now also supports format that `alex-ber-utils` 
+https://github.com/alex-ber/AlexBerUtils support for a long time.
+
+
+Please, consult https://medium.com/analytics-vidhya/my-major-init-app-conf-module-1a5d9fb3998c for
+full supported list of `general` parameters.
 
 See documentation here
 
-My `parser` module [https://medium.com/analytics-vidhya/my-parser-module-429ed1457718]
+My `parser` module https://medium.com/analytics-vidhya/my-parser-module-429ed1457718
 
-My `ymlparsers` module [https://medium.com/analytics-vidhya/my-ymlparsers-module-88221edf16a6]
+My `ymlparsers` module https://medium.com/analytics-vidhya/my-ymlparsers-module-88221edf16a6
 
-My major `init_app_conf` module [https://medium.com/analytics-vidhya/my-major-init-app-conf-module-1a5d9fb3998c]
+My major `init_app_conf` module https://medium.com/analytics-vidhya/my-major-init-app-conf-module-1a5d9fb3998c
 
 - Logger is enabled, relative path is resolved correctly, and other little tweaks, see
 
@@ -37,11 +37,12 @@ Integrating Python’s logging and warnings packages
 Making relative path to file to work 
 [https://alex-ber.medium.com/making-relative-path-to-file-to-work-d5d0f1da67bf]
  
-- config.xml - to remove package was added mkl*-related packagages and anaconda-specific packages.
+- `config.xml` - to remove package was added mkl*-related packagages and anaconda-specific packages.
 
+- `REAMDE.md` was updated to reflect all changes above. 
 
 ### Added
-- Optional Docker support added. **TODO: change documentation** 
+- Optional Docker support added.  
 
 
 ## [0.5.1] - 2020-10-25
