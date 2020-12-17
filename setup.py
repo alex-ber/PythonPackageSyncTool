@@ -4,7 +4,7 @@ import os
 
 
 #VERSION should be defined before importing UploadCommand
-VERSION = '0.5.2'
+VERSION = '0.5.3'
 from alexber.utils import UploadCommand
 NAME = 'python_package_sync_tool'
 SHORT_NAME = 'reqsync'

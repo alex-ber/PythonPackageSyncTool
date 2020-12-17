@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 
+## [0.5.3] - 2020-12-17
+### Changed
+- `REAMDE.md`, requiremetes section.
 
 
 ## [0.5.2] - 2020-12-17
