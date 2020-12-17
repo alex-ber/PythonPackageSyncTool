@@ -12,12 +12,20 @@ treeroot:
     - google-colab
     - graphviz
     - ipython
+    - icc-rt
+    - intel-openmp
     - jupyter
     - jupyter-client
     - jupyter-console
     - jupyter-core
     - menuinst
+    - mkl
     - mkl-fft
+    - mkl-random
+    - mkl-service
+    - pycosat
+    - conda
+    - conda-package-handling
     - navigator-updater
     - numpy
     - pyyaml
@@ -25,8 +33,10 @@ treeroot:
     - pywinpty
     - Twisted
     - sasl
+    - sip
     - scipy
     - tables
+    - tbb
     - terminado
     - tornado
     - xlwings

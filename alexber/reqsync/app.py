@@ -329,10 +329,11 @@ def _adapt_conf(args=None):
 
     init_app_conf.initConfig(default_parser_cls=_PythonPackageSyncToolConfParser)
 
-    # allow to not to specify treesort
-    args = [_adapt_arg(arg) for arg in args]
-    # allow to not to specify general.listEnsure
-    args = _adapt_list_ensure(args)
+    if args is not None:
+        # allow to not to specify treesort
+        args = [_adapt_arg(arg) for arg in args]
+        # allow to not to specify general.listEnsure
+        args = _adapt_list_ensure(args)
     dd = init_app_conf.parse_config(argumentParser=argumentParser, args=args)
 
 

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 
+
+## [0.5.2rc2] - 2020-12-16
+ **TODO: change documentation** (see below)
+
 ## [0.5.2rc1] - 2020-12-16
  
 
@@ -33,6 +37,7 @@ Integrating Python’s logging and warnings packages
 Making relative path to file to work 
 [https://alex-ber.medium.com/making-relative-path-to-file-to-work-d5d0f1da67bf]
  
+- config.xml - to remove package was added mkl*-related packagages and anaconda-specific packages.
 
 
 ### Added
