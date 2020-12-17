@@ -351,8 +351,6 @@ def main(args=None):
                         level=logging.INFO)
     logging.captureWarnings(True)
 
-    fixabscwd()
-
     dd = _adapt_conf(args)
 
     _log_config(**dd)
