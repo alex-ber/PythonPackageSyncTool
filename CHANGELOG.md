@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 \#https://pypi.org/manage/project/python-package-sync-tool/releases/
 
 
+## Unreleased
+#### Changed
+- Base docker image version to alexberkovich/alpine-anaconda3:0.2.1-slim.
+alexberkovich/alpine-anaconda3:0.1.1 has some minor changes relative to alexberkovich/alpine-anaconda3:0.1.1.
+See [https://github.com/alex-ber/alpine-anaconda3/blob/master/CHANGELOG.md] for details.
+
+
 ## [0.5.3] - 2020-12-17
 ### Changed
 - `REAMDE.md`, requiremetes section.

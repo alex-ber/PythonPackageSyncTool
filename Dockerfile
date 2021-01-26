@@ -1,4 +1,4 @@
-FROM alexberkovich/alpine-anaconda3:0.2.0
+FROM alexberkovich/alpine-anaconda3:0.2.1-slim
 
 COPY requirements.txt etc/requirements.txt
 COPY requirements-tests.txt etc/requirements-tests.txt
@@ -17,6 +17,6 @@ CMD tail -f /dev/null
 ##docker build --squash . -t reqsync-i
 #docker build . -t reqsync-i
 #docker exec -it $(docker ps -q -n=1) bash
-#docker tag reqsync-i alexberkovich/python_package_sync_tool:0.5.3
-#docker push alexberkovich/python_package_sync_tool:0.5.3
+#docker tag reqsync-i alexberkovich/python_package_sync_tool:0.5.4
+#docker push alexberkovich/python_package_sync_tool:0.5.4
 # EOF
